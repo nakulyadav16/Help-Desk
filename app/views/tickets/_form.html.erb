@@ -1,0 +1,89 @@
+<div class="container"  style= "color: white;
+    padding: 20px;
+    width: 80%;
+    border: 2px solid white;
+    background:cornflowerblue;
+    margin: auto;" >
+
+  <%= form_with model: ticket do |f| %>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <%= f.label :department_id,class:"form-label" %><br />
+        <%= f.select :department_id, options_for_select(Department.all.map{|department| [department.department_name,department.id]}),prompt: 'Select department',class: 'form-select'%>
+        <% ticket.errors.full_messages_for(:department_id).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
+      <div class="col-md-6">
+          <%= f.label :assigned_to,class:"form-label" %><br />
+          <%= f.select :assigned_to_id, options_for_select("None"),class: 'form-select',style: "width:100px;" %>
+          <% ticket.errors.full_messages_for(:assigned_to_id).each do |message| %>
+            <p class="text-danger"> <%= message %> </p>
+          <% end %>
+        </div>
+
+      <div class="col-md-6">
+        <%= f.label :Subject ,class:"form-label"%><br />
+        <%= f.text_field :subject,class:"form-control", autofocus: true%>
+        <% ticket.errors.full_messages_for(:subject).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
+      <div class="col-12">
+        <%= f.label :description ,class:"form-label" %><br />
+        <%= f.text_field :description, class:"form-control",  autocomplete: "email" %>
+        <% ticket.errors.full_messages_for(:description).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
+      <div class="col-md-6">
+        <%= f.label :due_date , class:"form-label" %><br />
+        <%= f.date_field :due_date ,class:"form-control" %>
+        <% ticket.errors.full_messages_for(:due_date).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
+      <div class="col-md-4">
+        <%= f.label :priority,class:"form-label" %><br />
+        <%= f.select :priority, options_for_select(["🔴High" ,"🟡Medium" ,"🟢Low"]),{prompt: 'Select priority'},{class: 'form-select'} %>
+        <% ticket.errors.full_messages_for(:priority).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+      
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">CREATE TICKET</button>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('#ticket_department_id').on('change',function(){
+      var department_selected_option = $(this).val();
+
+      if (department_selected_option){
+        $.ajax({
+          url: '/ticket/' + department_selected_option,
+          type: 'GET',
+          dataType: 'json',
+          success: function(data){
+            var options_html ='';
+            $.each(data, function(index,value){
+                options_html += '<option value="' + value.id + '">' + value.name + '</option>';
+            });
+            $('#ticket_assigned_to_id').html(options_html);
+          }, 
+          error: function(xhr, textStatus, errorThrown) {
+                        console.log('Error fetching options: ' + errorThrown);
+                    }
+        });
+      }
+    });
+  });
+</script>

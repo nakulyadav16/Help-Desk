@@ -1,0 +1,28 @@
+<table class= 'table table-bordered'  style="color:black; width:95%; margin:auto;background:white;">
+    <thead>
+      <tr>
+        <th> Subject </th>
+        <% if tickets.first.creator == current_user  %>
+          <th> Assigned to </th>
+        <% else %>
+          <th> Assigned By </th>
+        <% end %>
+        <th> Priority </th>
+        <th> Status </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% tickets.each do |ticket| %>
+        <tr>
+          <td><%= link_to ticket.subject, ticket ,class: 'nav-link' %></td> 
+          <% if tickets.first.creator == current_user  %>
+            <td><%= ticket.assigned_to.name %></td> 
+          <% else %>
+            <td><%= ticket.creator.name %></td> 
+          <% end %>
+          <td><%= ticket.priority %></td> 
+          <td><%= ticket.aasm_state %></td> 
+        </tr>
+      <% end %>
+    </tbody>
+</table>
