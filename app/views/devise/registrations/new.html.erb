@@ -56,22 +56,23 @@
         <%end%>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-6">
         <%= f.label :department_id ,class:"form-label"%><br />
-        <%= f.select :department_id, options_for_select( @departments.map{ |department| [ department.department_name , department.id ] } , selected: @user.department_id ) , {prompt: 'Select department'} , {class: 'form-select form-select-lg mb-3'} %>
+        <%= f.select :department_id, get_departments, {}, class: "form-control" %>
         <% resource.errors.full_messages_for(:department_id).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-6">
         <%= f.label :role ,class:"form-label" %><br />
-        <%= f.select :role, options_for_select( @roles.map{ |role| [ role.name ] } ) , {prompt: 'Select Role'} , {class: 'form-select form-select-lg mb-3'} %>
+        <%= f.select :role, get_roles, {}, class: "form-control" %>
         <% resource.errors.full_messages_for(:role).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
     </div>
+    <br>
     <div class="row g-3">
       <div class="col-md-10">
         <%= f.submit "Sign up",class:"btn btn-primary" %>

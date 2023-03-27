@@ -19,13 +19,6 @@ Rails.application.routes.draw do
   resources :tickets do
     member do
       patch :status_transistion
-      # patch :accepted
-      # patch :rejected
-      # patch :declined
-      # patch :after_due_date
-      # patch :satisfied
-      # patch :upgrade
-      # patch :close
     end
     resources :messages
   end

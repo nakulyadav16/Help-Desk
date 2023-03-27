@@ -5,25 +5,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  def new
-    @departments = Department.all
-    @roles = Role.all
-    super
-  end
+  # def new
+  #   super
+  # end
 
   # POST /resource
   # def create
-  #   @user = User.new(params[:user])
-
-  #   if @user.save
-  #     redirect_to tickets_path
-  #   else
-  #     render :new
-  #   end
-
-  #   # puts "name"
-  #   # super
-  #   # puts self.user
+  #   super
   # end
 
   # GET /resource/edit
