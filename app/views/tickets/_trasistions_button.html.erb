@@ -1,0 +1,17 @@
+<% if( ( ticket.status == "open" or ticket.status == "re_open" ) and ( ticket.assigned_to_id == current_user.id )) %>
+  <%= button_to "Accept", status_transistion_ticket_path( ticket, transistion:"accept" ), method: :patch, class: "btn btn-primary mb-4 rounded-0" %>
+  
+  <%= button_to "reject", status_transistion_ticket_path( ticket, transistion:"reject" ), method: :patch, class: "btn btn-primary mb-4 rounded-0" %>
+
+<% elsif ( ticket.status == "in_progress" or ticket.status == "pending" ) and ( ticket.creator_id == current_user.id ) %>
+  <%= button_to "Satisfy and close", status_transistion_ticket_path( ticket, transistion:"satisfy" ), method: :patch, class: "btn btn-primary mb-4 rounded-0"%>
+  <%= button_to "upgrade", edit_ticket_path(ticket), method: :get, class: "btn btn-primary mb-4 rounded-0"%>
+
+<% elsif ( ticket.status == "rejected" ) and ( ticket.creator_id == current_user.id ) %>
+  <%= button_to "Close", status_transistion_ticket_path( ticket, transistion:"close" ), method: :patch, class: "btn btn-primary mb-4 rounded-0" %>
+  <%= button_to "upgrade and re_open ", edit_ticket_path(ticket), method: :get, class: "btn btn-primary mb-4 rounded-0"%>
+
+<% elsif ( ticket.status != "closed" ) and ( ticket.creator_id == current_user.id ) %>
+  <%= button_to "close", status_transistion_ticket_path( ticket, transistion:"close" ), method: :patch, class: "btn btn-primary mb-4 rounded-0"%>
+ 
+<% end %>

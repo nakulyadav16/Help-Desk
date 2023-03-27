@@ -1,4 +1,6 @@
 class RolesController < ApplicationController
+  before_action :set_role, only: %i[ edit update destroy]
+
   def index
     @roles = Role.all
   end
@@ -13,34 +15,34 @@ class RolesController < ApplicationController
   def create
     @role = Role.new(role_params)
     if @role.save
-      redirect_to roles_path
+      redirect_to roles_path, notice: "New #{@role.name} role is created"
     else
       render :new
     end
   end
 
   def edit
-    @role = Role.find(params[:id])
   end
 
   def update
-    @role = Role.find(params[:id])
-
     if @role.update(role_params)
-      redirect_to roles_path
+      redirect_to roles_path, notice: "#{@role.name} is successfully updated"
     else
       render :edit
     end
   end
 
   def destroy
-    @role = Role.find(params[:id])
     @role.destroy
-
-    redirect_to roles_path
+    redirect_to roles_path, notice: "#{@role.name} is successfully deleted"
   end
 
   private
+  def set_role
+    @role = Role.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => error
+    redirect_to roles_path, notice: "Somtihng went wrong"
+  end
 
   def role_params
     params.require(:role).permit(:name)

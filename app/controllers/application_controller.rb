@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   protected
   def after_sign_in_path_for(resource)
-    if current_user.roles.first != nil and current_user.roles.first.name =="admin"
+    if current_user.has_role? :Admin
         home_path
     else
         tickets_path
@@ -17,11 +17,8 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys:[:name ,:dob ,:contact,:department_id,:role])
     devise_parameter_sanitizer.permit(:account_update, keys:[:name ,:dob ,:contact,:department_id,:role])
   end
-
-
 end

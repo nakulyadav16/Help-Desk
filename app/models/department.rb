@@ -1,7 +1,12 @@
 class Department < ApplicationRecord
-  before_create { |department| department.department_name = department.department_name.capitalize }
+  before_create :capitalize_name
   
   has_many :users, dependent: :destroy
 
   validates :department_name, presence: true
+
+  private 
+  def capitalize_name
+    self.department_name = self.department_name.capitalize 
+  end
 end

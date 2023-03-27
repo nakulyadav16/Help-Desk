@@ -1,5 +1,4 @@
 <h4> All Roles :</h4>
-
 <% @roles.each do | role | %>
     <%= role.name %>
     <%= link_to "Edit", edit_role_path(role) %>
@@ -7,3 +6,4 @@
     method: :delete, data: {confirm: "Are you sure ?" } %>
     <br>
 <% end %>
+<%= link_to "New Role", new_role_path, class:"btn btn-primary" %>

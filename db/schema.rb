@@ -10,24 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_23_063741) do
+ActiveRecord::Schema.define(version: 2023_03_27_101209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "active_admin_comments", force: :cascade do |t|
-    t.string "namespace"
-    t.text "body"
-    t.string "resource_type"
-    t.bigint "resource_id"
-    t.string "author_type"
-    t.bigint "author_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
-    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
-    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
-  end
 
   create_table "departments", force: :cascade do |t|
     t.string "department_name"
@@ -74,7 +60,7 @@ ActiveRecord::Schema.define(version: 2023_03_23_063741) do
     t.bigint "department_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "aasm_state"
+    t.string "status"
     t.index ["assigned_to_id"], name: "index_tickets_on_assigned_to_id"
     t.index ["creator_id"], name: "index_tickets_on_creator_id"
     t.index ["department_id"], name: "index_tickets_on_department_id"

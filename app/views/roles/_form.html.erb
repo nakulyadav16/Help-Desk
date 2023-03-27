@@ -1,10 +1,8 @@
 <%= form_with model: role do | f | %>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    <% role.errors.full_messages_for(:name).each do | message | %>
-        <%= message %>
-    <% end %>
-    
-    <%= f.submit %>
-
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <% role.errors.full_messages_for(:name).each do | message | %>
+      <%= message %>
+  <% end %>
+  <%= f.submit %>
 <% end %>

@@ -23,6 +23,8 @@ class User < ApplicationRecord
   validates :dob, presence: true 
   validate :check_age
 
+  # Scopes
+  scope :department_users, ->(selected_department) { where("department_id = ?", selected_department) }
   private
 
   def assign_role

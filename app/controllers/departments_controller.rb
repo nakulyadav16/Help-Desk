@@ -1,6 +1,6 @@
 class DepartmentsController < ApplicationController
-  
   before_action :authenticate_user!
+  before_action :set_department, only: %i[ show edit update destroy ]
   
   def index
     @departments = Department.all
@@ -15,35 +15,35 @@ class DepartmentsController < ApplicationController
 
   def create
     @department = Department.new(department_params)
-
     if @department.save
-      redirect_to tickets_path
+      redirect_to departments_path, notice: "New #{@department.department_name} is successfully created"
     else
       render :new
     end
   end
 
   def edit 
-    @department = Department.find(params[:id])
   end
 
   def update
-    @department = Department.find(params[:id])
     if @department.update(department_params)
-      redirect_to @department
+      redirect_to departments_path, notice: "#{@department.department_name} is succesfully updated"
     else
       render :edit 
     end
   end
 
   def destroy
-    @department = Department.find(params[:id])
     @department.destroy
-
-    redirect_to departments_path
+    redirect_to departments_path, notice: "#{@department.department_name} is succesfully deleted"
   end
 
-  private 
+  private
+  def set_department
+    @department = Department.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => error
+    redirect_to departments_path, notice: "Something went wrong"
+  end
 
   def department_params
     params.require(:department).permit(:department_name)
