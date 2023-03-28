@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_many :assigned_tickets,class_name: 'Ticket' ,foreign_key: 'assigned_to_id' ,dependent: :destroy
   has_many :messages , through: :tickets
 
+  # attachment
+  has_one_attached :profile_pic
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

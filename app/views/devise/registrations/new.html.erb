@@ -71,6 +71,11 @@
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
+
+      <div class="col-md-6">
+        <%= f.label :profile_pic ,class:"form-label"%><br />
+        <%= f.file_field :profile_pic, class: "form-control"%>
+      </div>
     </div>
     <br>
     <div class="row g-3">

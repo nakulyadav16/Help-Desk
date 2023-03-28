@@ -10,6 +10,10 @@
                 <li class="nav-item">
                     <h4 class="nav-item mt-1 mr-3"><%= current_user.name  %></h4>
                 </li>
+                <% if current_user.profile_pic.attached? %>
+                    <%= image_tag current_user.profile_pic, size: "25x25",style: "border-radius: 10px; margin-top: 5px;" %>
+                <% end %>
+
                 <li class="nav-item">
                     <%= link_to 'Edit Profile', edit_user_registration_path, class: 'nav-link' %>
                 </li>
