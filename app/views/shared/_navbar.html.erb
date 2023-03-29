@@ -12,6 +12,8 @@
                 </li>
                 <% if current_user.profile_pic.attached? %>
                     <%= image_tag current_user.profile_pic, size: "25x25",style: "border-radius: 10px; margin-top: 5px;" %>
+                <% else %>
+                    <%= image_tag("no_profile_pic.jpg", size: "25x25",style: "border-radius: 10px; margin-top: 5px;")%>
                 <% end %>
 
                 <li class="nav-item">

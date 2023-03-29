@@ -1,5 +1,5 @@
 class Department < ApplicationRecord
-  before_create :capitalize_name
+  before_save :capitalize_name
   
   has_many :users, dependent: :destroy
 

@@ -48,7 +48,7 @@ class TicketsController < ApplicationController
   end
 
   def fetch
-    options = User.department_users( fetch_params[ :department_selected_option ] ) # using scope
+    options = User.department_users( fetch_params[:department_selected_option] ) # using scope
     render json: options.to_json(only: [:id, :name])
   end
 
@@ -75,7 +75,7 @@ class TicketsController < ApplicationController
   end
 
   def ticket_params
-    params.require(:ticket).permit(:subject, :description, :due_date, :priority, :department_id, :assigned_to_id, :user_id )
+    params.require(:ticket).permit(:subject, :description, :due_date, :priority, :department_id, :assigned_to_id, :user_id, documents: [] )
   end
 
   def fetch_params

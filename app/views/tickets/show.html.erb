@@ -27,6 +27,8 @@
               <strong> Assigend By : </strong> <%= @ticket.creator.name %> 
             </p>
           <%end%>
+          <%= render 'documents_attached', { model_instance: @ticket }%>
+          <br>
           <%= render 'trasistions_button', { ticket: @ticket }%>   
         </div>
       </div>
@@ -42,11 +44,15 @@
       <% if  message.user_id == current_user.id %>
         <div  style="display: block; text-align-last: end; margin:2px; ">
           <p style="margin: 0px; background:skyblue;" > 
+            <%= render 'documents_attached', { model_instance: message }%>
+            <br>
             <%= message.content %> 
           </p>
       <% else %>
         <div  style="display: block; margin:2px ">
           <p style="margin: 0px;">
+            <%= render 'documents_attached', { model_instance: message }%>
+            <br>
             <%= message.content %>
           </p>
       <% end %>
@@ -55,11 +61,13 @@
   </div>
 
   <div>
-    <%= form_with model: [ @ticket , @ticket.messages.build ] do | f |%>
+    <%= form_with(model: [@ticket , @ticket.messages.build],url: ticket_messages_path(@ticket, user_id: current_user), method: :post) do | f |%>
       <p>
         <br>
+        <%= f.label :documents,"Attach Document", class:"form-label" %>
+        <%= f.file_field :documents, multiple: true, class: "form-select"%>
         <%= f.text_field :content,id: 'message_content', class: 'form-control', style:"width:84%; display: inline-block;"%> 
-        <%= f.hidden_field :user_id , required: true,  value:current_user.id  %>
+        <%#= f.hidden_field :user_id , required: true,  value:current_user.id %>
         <%= f.submit "Send",data: { disable_with: false }, class:"btn btn-primary" %>
       </p>
     <% end %>
