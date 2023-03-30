@@ -1,29 +1,27 @@
-<div class="card" style="width: 25rem; padding: 50px; margin: auto;background:cornflowerblue;color: white;">
-  <h2>Log in</h2>
+<div class="card" style="width: 25rem; padding: 25px; margin: auto;background:#FFBF69;color: black;">
+  <h2 style="margin:auto">Log in</h2>
+  <br>
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
-      <%= f.label :email %><br/>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"email addrerss" %>
     </div>
-
+    <br>
     <div class="field">
-      <%= f.label :password %><br />
-      <%= f.password_field :password, autocomplete: "current-password" %>
+      <%= f.password_field :password,class:"form-control",placeholder:"password" %>
     </div>
-
+    <br>
     <% if devise_mapping.rememberable? %>
       <div class="field">
         <%= f.check_box :remember_me %>
         <%= f.label :remember_me %>
       </div>
     <% end %>
-
     <div class="actions">
-      <%= f.submit "Log in" ,class: 'btn btn-primary'%>
+      <%= f.submit "Log in", class:"form-control btn-info"%>
     </div>
   <% end %>
   <br>
-  <div style = "color: white;">
+  <div style = "color: black;">
     <%= render "devise/shared/links" %>
   </div>
 </div>

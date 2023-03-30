@@ -1,24 +1,23 @@
-
-<div class="container bg-primary-subtle">
-  <div class="card text-center ">
-    <div class="card-header " style="background: cornflowerblue; border: none">
+<div class="container bg-info-subtle">
+  <div class="card text-center "  style="border-radius:20px">
+    <div class="card-header " style="background: #FFBF69; ">
       <h1>Help-Desk</h1>
     </div>
-    <div class="card-body" style="background: lightsteelblue;">
+    <div class="card-body" style="background: skyblue;">
       <h5 class="card-title">Place to Get Help</h5>
       <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
       <% if user_signed_in? %>
         <% if current_user.has_role? :Admin %>
-          <%= link_to "Show Department", departments_path, class:"btn btn-primary" %>
-          <%= link_to "Show Roles", roles_path, class:"btn btn-primary" %> 
+          <%= link_to "Show Department", departments_path, class:"btn btn-info" %>
+          <%= link_to "Show Roles", roles_path, class:"btn btn-info" %> 
         <% else %>
-          <%= link_to 'Your tickets', tickets_path , class:"btn btn-primary" %>
+          <%= link_to 'Your tickets', tickets_path , class:"btn btn-info" %>
         <% end %>
-        <%= link_to 'Edit Profile', edit_user_registration_path, class:"btn btn-primary" %>
-        <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class:"btn btn-primary" %>
+        <%= link_to 'Edit Profile', edit_user_registration_path, class:"btn btn-info" %>
+        <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class:"btn btn-info" %>
       <% else %>
-        <%= link_to 'Sign In', new_user_session_path, class:"btn btn-primary" %>
-        <%= link_to 'Register', new_user_registration_path, class:"btn btn-primary" %>
+        <%= link_to 'Sign In', new_user_session_path, class:"btn btn-info" %>
+        <%= link_to 'Register', new_user_registration_path, class:"btn btn-info" %>
       <% end %>
     </div>
   </div>

@@ -1,3 +1,26 @@
+<div class="card" style="width: 25rem; padding: 25px; margin: auto;background:#FFBF69;color: black;">
+  <% if department.new_record? %>
+    <h2 style="margin:auto">New Department</h2>
+  <% else %>
+    <h2 style="margin:auto">Update Department</h2>
+  <% end %>
+  <br>
+  <%= form_with model: department do | f | %>
+    <div class="field">
+      <%= f.email_field :department_name, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"Department name" %>
+      <% department.errors.full_messages_for(:department_name).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+    <br>
+    <div class="actions">
+      <%= f.submit class:"form-control btn-info"%>
+    </div>
+  <% end %>
+</div>
+
+
+<!--
 <%= form_with model: department do | f | %>
   <%= f.label :department_name %>
   <%= f.text_field :department_name %>
@@ -6,3 +29,4 @@
   <% end %>
   <%= f.submit %>
 <% end %>
+-->

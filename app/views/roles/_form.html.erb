@@ -1,8 +1,20 @@
-<%= form_with model: role do | f | %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <% role.errors.full_messages_for(:name).each do | message | %>
-      <%= message %>
+<div class="card" style="width: 25rem; padding: 25px; margin: auto; background:#FFBF69; color: black;">
+  <% if role.new_record? %>
+    <h2 style="margin:auto">New Role</h2>
+  <% else %>
+    <h2 style="margin:auto">Update Role</h2>
   <% end %>
-  <%= f.submit %>
-<% end %>
+  <br>
+  <%= form_with model: role do | f | %>
+    <div class="field">
+      <%= f.email_field :name, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"Role name" %>
+      <% role.errors.full_messages_for(:name).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+    <br>
+    <div class="actions">
+      <%= f.submit class:"form-control btn-info"%>
+    </div>
+  <% end %>
+</div>

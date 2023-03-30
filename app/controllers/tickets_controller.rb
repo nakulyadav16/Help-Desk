@@ -3,7 +3,7 @@
 # This controller is user for handling Tickets
 class TicketsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_ticket, only: %i[ show edit update destroy accepted rejected satisfied close status_transistion ]
+  before_action :set_ticket, only: %i[ show edit update destroy status_transistion ]
 
   def index
     @user_tickets = current_user.tickets

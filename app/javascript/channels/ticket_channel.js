@@ -34,12 +34,14 @@ $(document).on('turbolinks:load', () => {
         if ( user_id === data.data.user_id){
           new_message = '<div  style="display: block; text-align-last: end; margin:2px; ">' + 
           '<p style="margin: 0px; background:skyblue;" > '+ 
+            data.data.documents
             data.data.content +  
           '</p>'
         }
         else{
           new_message = '<div  style="display: block; margin:2px ">' + 
           '<p style="margin: 0px;">' + 
+            data.data.documents
             data.data.content 
           '</p>'
         }
