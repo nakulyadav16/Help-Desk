@@ -23,6 +23,7 @@ class TicketsController < ApplicationController
     @ticket = current_user.tickets.new(ticket_params)
     if @ticket.save
       TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver_later
+      TicketHistory.new(ticket_id: @ticket.id, user_id: current_user.id).save!
       redirect_to tickets_path, notice: "New Ticket is successfully created"
     else
       redirect_to new_ticket_path

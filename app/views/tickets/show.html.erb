@@ -46,14 +46,14 @@
               </div>
             </div>    
             <div class="chat-box">
-              <%= form_with model: [@ticket , @ticket.messages.build] do | f |%>
+              <%= form_with(model: [@ticket , @ticket.messages.build]) do | f |%>
                 <p>
                 <br>
                 <%= f.label :documents,"Attach Document", class:"form-label" %>
                 <%= f.file_field :documents, multiple: true, class: "form-select"%>
                 <%= f.text_field :content,id: 'message_content', class: 'form-control', style:"width:84%; display: inline-block;"%> 
-                <%= f.hidden_field :user_id , required: true,  value:current_user.id %>
-                <%= f.submit "Send",data: { disable_with: false }, class:"btn btn-primary" %>
+                <%#= f.hidden_field :user_id , required: true,  value:current_user.id %>
+                <%= f.submit "Send",data: { disable_with: false }, class:"btn btn-primary", id:"send" %>
                 </p>
               <% end %>
             </div>
@@ -62,6 +62,21 @@
     </div>
   </div>
 </div>
+
+
+
+<script>
+  $('#collapse1').stop().animate ({
+    scrollTop: $('#collapse1')[0].scrollHeight
+  });
+
+         
+$("#send").click(function() {
+  $("#collapse1").stop().animate ({ 
+    scrollTop: $("#collapse1")[0].scrollHeight
+    }, 500);
+});
+</script>
 
 
 
