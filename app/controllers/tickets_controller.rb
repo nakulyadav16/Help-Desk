@@ -12,8 +12,7 @@ class TicketsController < ApplicationController
   end
 
   def show
-    # byebug
-    @ticket_history = TicketHistory.all.where("ticket_id = ?", @ticket.id)
+    @ticket_assigned_history = User.all.where( id: @ticket.ticket_histories.pluck(:user_id)).pluck(:name)
   end
 
   def new
@@ -25,10 +24,10 @@ class TicketsController < ApplicationController
     @ticket = current_user.tickets.new(ticket_params)
     if @ticket.save
       TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver_later
-     
+      TicketHistory.new(ticket_id: @ticket.id, user_id: @ticket.assigned_to_id).save!
       redirect_to tickets_path, notice: "New Ticket is successfully created"
     else
-      redirect_to new_ticket_path
+      render :new
     end
   end
 
@@ -38,8 +37,9 @@ class TicketsController < ApplicationController
 
   def update
     if @ticket.update(ticket_params)
+      TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver_later
+      TicketHistory.new(ticket_id: @ticket.id, user_id: @ticket.assigned_to_id).save!
       @ticket.upgrade!
-      TicketHistory.new(ticket_id: @ticket.id, user_id: current_user.id).save!
       redirect_to @ticket, notice: "Ticket is successfully updated"
     else
       render :edit

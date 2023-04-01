@@ -7,6 +7,7 @@ class Ticket < ApplicationRecord
   belongs_to :creator,class_name: 'User'
   belongs_to :assigned_to ,class_name: 'User'  
   belongs_to :department 
+  has_many :ticket_histories
 
   # attachment
   has_many_attached :documents

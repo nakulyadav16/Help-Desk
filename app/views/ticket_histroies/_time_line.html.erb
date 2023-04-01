@@ -3,24 +3,14 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Timeline</h6>
+                    <h6 class="card-title">Ticket Timeline</h6>
                     <div id="content">
                         <ul class="timeline">
-                            <li class="event">
-                                <h3>Registration</h3>
-                            </li>
-                            <li class="event">
-                                <h3>Opening Ceremony</h3>
-                            </li>
-                            <li class="event">
-                                <h3>Main Event</h3>
-                            </li>
-                            <li class="event">
-                                <h3>Closing Ceremony</h3>
-                            </li>
-                            <li class="event">
-                                <h3>Closing Ceremony</h3>
-                            </li>
+                            <% ticket_assigned_history.each do |name| %>
+                                <li class="event">
+                                    <h3><%= name %></h3>
+                                </li>
+                            <% end %>
                         </ul>
                     </div>
                 </div>

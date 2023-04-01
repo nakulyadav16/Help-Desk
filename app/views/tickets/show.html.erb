@@ -30,7 +30,7 @@
           <%= render 'documents_attached', { model_instance: @ticket }%>
           <br>
           <%= render 'trasistions_button', { ticket: @ticket }%> 
-          <%= render 'ticket_histroies/time_line.html' %>
+          <%= render 'ticket_histroies/time_line.html', { ticket_assigned_history: @ticket_assigned_history } %>
         </div>
     </div>
     <div class="col-7" style="background: #CBF3F0; border-radius:20px ; max-height: 500px"  >
@@ -64,22 +64,16 @@
   </div>
 </div>
 
-<%= @ticket_histroies %>
+<%= @ticket_history %>
 
 <script>
   $('#collapse1').stop().animate ({
     scrollTop: $('#collapse1')[0].scrollHeight
   });
 
-         
-$("#send").click(function() {
-  $("#collapse1").stop().animate ({ 
-    scrollTop: $("#collapse1")[0].scrollHeight
-    }, 500);
-});
+  $("#send").click(function() {
+    $("#collapse1").stop().animate ({ 
+      scrollTop: $("#collapse1")[0].scrollHeight
+      }, 500);
+  });
 </script>
-
-
-
-
-

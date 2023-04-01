@@ -9,7 +9,7 @@
     <div class="row g-3">
       <div class="col-md-6">
         <%= f.label :department_id,class:"form-label" %><br />
-        <%= f.select :department_id, options_for_select( @departments.map{|department| [department.department_name,department.id]}),{prompt: 'Select department'}, class: 'form-control' %>
+        <%= f.select :department_id, options_for_select( get_departments ),{prompt: 'Select department'}, class: 'form-control' %>
         <% ticket.errors.full_messages_for(:department_id).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
