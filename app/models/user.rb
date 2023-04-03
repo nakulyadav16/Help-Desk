@@ -21,9 +21,9 @@ class User < ApplicationRecord
   # validates :name, presence: true , message: "name is blank it can't"
   # validates_presence_of :name, :message => 'Please Enter Your Name.'
   validates :name, presence: true
-  validates :contact,  presence: true 
+  # validates :contact,  presence: true 
   validates :department_id, presence: true
-  validates :dob, presence: true 
+  # validates :dob, presence: true 
   validate :check_age
 
   # Scopes

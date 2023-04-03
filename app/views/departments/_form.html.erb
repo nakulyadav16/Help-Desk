@@ -7,7 +7,7 @@
   <br>
   <%= form_with model: department do | f | %>
     <div class="field">
-      <%= f.email_field :department_name, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"Department name" %>
+      <%= f.text_field :department_name, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"Department name" %>
       <% department.errors.full_messages_for(:department_name).each do |message| %>
         <div><%= message %></div>
       <% end %>

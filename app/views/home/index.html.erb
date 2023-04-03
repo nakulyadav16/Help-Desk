@@ -7,7 +7,7 @@
       <h5 class="card-title">Place to Get Help</h5>
       <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
       <% if user_signed_in? %>
-        <% if current_user.has_role? :Admin %>
+        <% if current_user.has_role? :admin %>
           <%= link_to "Show Department", departments_path, class:"btn btn-info" %>
           <%= link_to "Show Roles", roles_path, class:"btn btn-info" %> 
         <% else %>
@@ -22,3 +22,28 @@
     </div>
   </div>
 </div>
+
+
+<div id="ajaxs">
+<%= link_to 'index',id:"index", remote: true %>
+
+</div>
+
+<script>
+      $(document).ready(function(){
+        console.log("success");
+        $('#ajaxs').on('click',function(){
+          console.log("success");
+          var body=document.getElementById("ajaxs");
+          opacity = Number(window.getComputedStyle(body).getPropertyValue("opacity"))
+            if(opacity > 0){
+              opacity=opacity-0.2;
+              body.style.opacity=opacity
+            }
+            else{
+              opacity=opacity-0.2;
+              body.style.opacity=1
+            }
+        }); 
+      })
+    </script>

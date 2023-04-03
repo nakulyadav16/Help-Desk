@@ -16,11 +16,17 @@
       </div>
 
       <div class="col-md-6">
+      <br>
+      <br>
+        <div id="assign_to">
+        </div>
+<!--
           <%= f.label :assigned_to,class:"form-label" %><br />
           <%= f.select :assigned_to_id, options_for_select("None"),{} , class: 'form-control' %>
           <% ticket.errors.full_messages_for(:assigned_to_id).each do |message| %>
             <p class="text-danger"> <%= message %> </p>
           <% end %>
+-->
         </div>
 
       <div class="col-md-6">
@@ -81,9 +87,11 @@
           success: function(data){
             var options_html ='';
             $.each(data, function(index,value){
-                options_html += '<option value="' + value.id + '">' + value.name + '</option>';
+                // options_html += '<option value="' + value.id + '">' + value.name + '</option>';
+                options_html += '<h4>' + value.name + '</h4>';
             });
-            $('#ticket_assigned_to_id').html(options_html);
+            $('#assign_to').html(options_html);
+            console.log(data);
           }, 
           error: function(xhr, textStatus, errorThrown) {
                         console.log('Error fetching options: ' + errorThrown);

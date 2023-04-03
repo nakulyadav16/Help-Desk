@@ -7,11 +7,16 @@
   <br>
   <%= form_with model: role do | f | %>
     <div class="field">
-      <%= f.email_field :name, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"Role name" %>
+      <%= f.text_field :name, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"Role name" %>
       <% role.errors.full_messages_for(:name).each do |message| %>
         <div><%= message %></div>
       <% end %>
     </div>
+    <div class="field">
+      <%= f.label :parent_id %>
+      <%= f.select :parent_id, options_from_collection_for_select(@roles, "id", "name"), class:"form-control"%>
+    </div>
+
     <br>
     <div class="actions">
       <%= f.submit class:"form-control btn-info"%>

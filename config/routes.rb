@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   resources :tickets do
     member do
+      patch :upgrade
       patch :status_transistion
     end
     resources :messages
