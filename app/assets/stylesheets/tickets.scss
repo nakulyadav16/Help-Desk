@@ -3,4 +3,113 @@
   padding:20px;
   height:400px;
   border-radius:12px;
+
+  .nav-pills-block {
+    display: block;
+    
+    .nav-item {
+      .nav-link {
+        border: none;
+        &:hover {
+          background-color: #00a4b6;
+        }
+      }
+      .active {
+        background-color: #00a4b6;
+      }
+    }
+  }
+
+  .ticket-box {
+    height: 365px;
+  }
+}
+
+.ticket-box {
+  background:#31255e;
+  padding:20px;
+  border-radius:12px;
+  .card-body-bg {
+    background: #CBF3F0;
+    border-radius:20px;
+  }
+
+  .chat-box {
+    background: #CBF3F0; 
+    border-radius:20px; 
+    max-height: 500px;
+    .message-box {
+      overflow-y: scroll;
+      height:300px;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+    .new-message-box {
+      #message_content {
+        width:84%;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.form-box {
+  color: white;
+  padding: 20px;
+  width: 80%;
+  border-radius: 15px;
+  background: #31255e;
+  margin: auto;
+}
+
+.ticket-table-box {
+  overflow-y: scroll;
+  height: 350px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .table-striped-bg {
+    background:#CBF3F0;
+    .table-head{
+      position: sticky;
+    }
+  }
+  .badge {
+    padding: 8px 15px;
+  }
+
+  .high-priority-badge {
+    background: red;
+    color: rgb(0, 0, 0);
+  }
+  .medium-priority-badge {
+    background: rgb(250, 200, 0);
+    color: rgb(0, 0, 0);
+  }
+  .low-priority-badge {
+    background: rgb(54, 156, 45);
+    color: rgb(255, 255, 255);
+  }
+  .open-status-badge {
+    background: rgb(42, 143, 152);
+    color: white;
+  }
+  .in-progress-status-badge {
+    background: rgb(31, 122, 31);
+    color: white;
+  }
+  .rejected-status-badge {
+    background: rgb(164, 25, 25);
+    color: white;
+  }
+  .closed-status-badge {
+    background: rgb(70, 94, 232);
+    color: white;
+  }
+  .reopen-status-badge {
+    background: rgb(33, 143, 33);
+    color: white;
+  }
 }

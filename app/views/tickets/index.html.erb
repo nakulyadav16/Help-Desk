@@ -4,7 +4,7 @@
       <%# <hr> %>
       <%= link_to "New ticket", new_ticket_path, class: "btn btn-info mb-3 ml-1 rounded-2 form-control" %>
       <%# <hr> %>
-      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="display:block;">
+      <ul class="nav nav-pills mb-3 nav-pills-block" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active form-control m-1" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Your Tickets</button>
         </li>
@@ -16,7 +16,7 @@
         </li>
       </ul>
     </div>
-    <div class="col-9" style="height: 365px;">
+    <div class="col-9 ticket-box">
       <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
       <% if @user_tickets.first == nil %>

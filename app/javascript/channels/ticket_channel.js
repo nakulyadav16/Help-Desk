@@ -25,18 +25,21 @@ $(document).on('turbolinks:load', () => {
         const user_element = document.getElementById('user-id')
         const user_id = Number(user_element.getAttribute('data-user-id'))
         let new_message;
-        if ( user_id === data.data.user_id){
-          new_message = '<div  style="display: block; text-align-last: end; margin:2px; ">' + 
-          '<p style="margin: 0px; background:skyblue;" >' +  
-            data.data.content +  
-          '</p>'
-        }
-        else{
-          new_message = '<div  style="display: block; margin:2px ">' + 
-          '<p style="margin: 0px;">' + 
-            data.data.content 
-          '</p>'
-        }
+        
+        new_message = `<div class="message  ${ (user_id === data.data.user_id)? "me":"" }" ><div class="content-box"><div class="content"> ${data.data.content} </div> <div class="author"> ${data.data.user_id} </div> </div> </div>` ;
+
+        // if ( user_id === data.data.user_id){
+        //   new_message = '<div  style="display: block; text-align-last: end; margin:2px; ">' + 
+        //   '<p style="margin: 0px; background:skyblue;" >' +  
+        //     data.data.content +  
+        //   '</p>'
+        // }
+        // else{
+        //   new_message = '<div  style="display: block; margin:2px ">' + 
+        //   '<p style="margin: 0px;">' + 
+        //     data.data.content 
+        //   '</p>'
+        // }
         const message_container = document.getElementById('messages')
         message_container.innerHTML = message_container.innerHTML + new_message
         $('#message_content').val('')

@@ -1,8 +1,8 @@
-<div class="card" style="width: 25rem; padding: 25px; margin: auto; background:#31255e; color: black;">
+<div class="card form-box">
   <% if role.new_record? %>
-    <h2  class="text-light" style="margin:auto">New Role</h2>
+    <h2>New Role</h2>
   <% else %>
-    <h2  class="text-light" style="margin:auto">Update Role</h2>
+    <h2>Update Role</h2>
   <% end %>
   <br>
   <%= form_with model: role do | f | %>

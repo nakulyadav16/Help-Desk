@@ -1,3 +1,37 @@
-.navbar-brand {
-    color: white;
+.navbar-bg {
+	background: #31255e; 
+	color:white;
 }
+
+.signin-dropdown {
+	width: 200px;
+	padding: 0px;
+	margin: auto; 
+	background: #31255e;
+	color: white;
+	border: none; 
+	img {
+		border-radius: 10px;
+	}
+
+	&:hover {
+		background-color: #4e4080;
+	}
+
+	&:focus {
+		background-color: #31255e;
+		box-shadow: none;
+	}
+}
+
+.dropdown-menu-bg {
+		background: #31255e;
+		margin: 12px 0px 0px 10px;
+		
+		.dropdown-item-bg {
+			color: white;
+			&:hover {
+				color: black;
+			}
+		}
+	}
