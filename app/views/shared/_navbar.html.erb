@@ -1,11 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-light fixed-top " style= "background: #FFBF69;">
-  <span class="navbar-brand">Help Desk</span> 
-  <%= link_to "Home",  home_path, class:"navbar-brand" %>
-  <%= link_to "Tickets", tickets_path, class:"navbar-brand" %>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top " style= "background: #31255e; color:white;">
+  <span class="navbar-brand" style="color: white;">Help Desk</span> 
+  <%= link_to "Home",  home_path, class:"navbar-brand", style:"color: white;" %>
+  <%= link_to "Tickets", tickets_path, class:"navbar-brand", style:"color: white;"%>
   <% if current_user.present? %>
     <% if current_user.has_role? :admin %>
-    <%= link_to "Departments",  departments_path, class:"navbar-brand" %>
-    <%= link_to "Roles",  roles_path, class:"navbar-brand" %>
+    <%= link_to "Departments",  departments_path, class:"navbar-brand", style:"color: white;"%>
+    <%= link_to "Roles",  roles_path, class:"navbar-brand", style:"color: white;"%>
     <% end %>
   <% end %>
 
@@ -13,25 +13,25 @@
     <ul class="navbar-nav ml-auto">
       <% if user_signed_in? %>
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width:200px;padding:0px;margin:auto; background: #FFBF69;color: black;border:none ">
-            <h4 class="navbar-brand" style="display:inline-block;"><%= current_user.name %> </h4>
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width:200px;padding:0px;margin:auto; background: #31255e;color: white;border:none ">
+            <h4 class="navbar-brand" style="display:inline-block; color: white;"><%= current_user.name %> </h4>
             <% if current_user.profile_pic.attached? %>
               <%= image_tag current_user.profile_pic,  size: "30x30", style: "border-radius: 10px;" %>
             <% else %>
               <%= image_tag("no_profile_pic.jpg",  size: "30x30", style: "border-radius: 10px;")%>
             <% end %>
           </button>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Edit Profile',  edit_user_registration_path,  class:"dropdown-item" %></li>
-            <li><%= link_to 'Log Out',  destroy_user_session_path,  method: :delete, class:"dropdown-item" %></li>
+          <ul class="dropdown-menu" style="background: #31255e;">
+            <li><%= link_to 'Edit Profile',  edit_user_registration_path,  class:"dropdown-item", style:"color:white;" %></li>
+            <li><%= link_to 'Log Out',  destroy_user_session_path,  method: :delete, class:"dropdown-item", style:"color:white;" %></li>
           </ul>
         </div>
       <% else %>
         <li class="nav-item">
-          <%= link_to 'Sign In',  new_user_session_path,  class: 'nav-link' %>
+          <%= link_to 'Sign In',  new_user_session_path,  class: 'nav-link text-light' %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Register',  new_user_registration_path,  class: 'nav-link' %>
+          <%= link_to 'Register',  new_user_registration_path,  class: 'nav-link text-light' %>
         </li>
       <% end %>
     </ul>

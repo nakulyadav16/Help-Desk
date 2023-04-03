@@ -1,4 +1,4 @@
-<div class="container-fluid" style="background:#FFBF69; padding:20px; height:400px; border-radius:12px">
+<div class="container-fluid ticket_list">
   <div class="row">
     <div class="col-3 rooms-sidebar">
       <%# <hr> %>
@@ -20,7 +20,7 @@
       <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
       <% if @user_tickets.first == nil %>
-        <p> you have not created any ticket. </p>
+        <h4 class="text-light"> You have not created any ticket. </h4>
       <% else %>
         <%= render 'assigned_tickets_table', { tickets: @user_tickets } %>
       <% end %>
@@ -28,7 +28,7 @@
     
     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
       <% if @assigned_tickets.first == nil%>
-        <p> No one has assigned any ticket to you </p>
+        <h4 class="text-light"> No one has assigned any ticket to you </h4>
       <% else %>
           <%= render 'assigned_tickets_table', {tickets: @assigned_tickets } %>
       <% end %>
@@ -36,7 +36,7 @@
 
     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
       <% if @new_request_tickets.first == nil %>
-        <h4> No new request available </h4>
+        <h4  class="text-light"> No new request available </h4>
       <% else %>                
         <%= render 'assigned_tickets_table', { tickets: @new_request_tickets } %>
       <% end %>

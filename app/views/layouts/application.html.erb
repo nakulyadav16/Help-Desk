@@ -12,11 +12,11 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body style="font-family: 'Poppins'; background:#CBF3F0; position: relative;">
+  <body>
     <%= render 'shared/navbar' %>
-    <div class="container" style="margin-top:100px;  ">
-        <p class="notice" style= "background: bisque; color: red; position: absolute; margin-top: -45px;"><%= notice %></p>
-        <p class="alert"  style= "color: red; position: absolute; margin-top: -45px;"><%= alert %></p>
+    <div class="container container-margin">
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
         <%= yield %>
     </div>
     <script>
@@ -25,8 +25,6 @@
           $('.notice').remove();
         }, 1500);
       })
-    </script>
-    <script>
       $(document).ready(function(){
         setTimeout(function(){
           $('.alert').remove();

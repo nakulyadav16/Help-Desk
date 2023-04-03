@@ -22,7 +22,7 @@ class TicketsController < ApplicationController
 
   def create
     @ticket = current_user.tickets.new(ticket_params)
-    assign_ticket
+    @ticket.due_date = (Date.today+3).to_s
     if @ticket.save
       TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver_later
       TicketHistory.new(ticket_id: @ticket.id, user_id: @ticket.assigned_to_id).save!
@@ -53,14 +53,14 @@ class TicketsController < ApplicationController
   end
 
   def fetch
+    department = Department.find_by_id(fetch_params[:department_selected_option]).department_name
+    role = Role.find_by_id(Department.find_by_id(fetch_params[:department_selected_option]).users.second.roles.first.id).descendants.last.name
+    user = User.with_role role
+    render json: user.to_json(only: [:id, :name])
+    
     # @options = User.department_users( fetch_params[:department_selected_option] ) # using scope
     # @options = @options.with_role "admin"
-    department = Department.find_by_id(fetch_params[:department_selected_option]).department_name
     # users = department.users
-
-    role = Role.find_by_id(Department.find_by_id(fetch_params[:department_selected_option]).users.second.roles.first.id).descendants.last.name
-    @options = User.with_role role
-
     # puts '--------------------------------'
     # puts department
     # case department
@@ -69,7 +69,6 @@ class TicketsController < ApplicationController
     #   @options = User.with_role "GHI" # department k lowest role ok likhna hai 
     #   # puts @options.pluck(:name)
     # end
-    render json: @options.to_json(only: [:id, :name])
   end
 
   # aasm event calling methods
@@ -93,7 +92,7 @@ class TicketsController < ApplicationController
       TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver_later
       TicketHistory.new(ticket_id: @ticket.id, user_id: @ticket.assigned_to_id).save!
       @ticket.upgrade!
-      redirect_to @ticket, notice: "Ticket is successfully updated"
+      redirect_to @ticket, notice: "Ticket is successfully upgraded"
     else
       render :edit
     end
@@ -101,32 +100,29 @@ class TicketsController < ApplicationController
   
   private
 
-  def some(d)
-    case d 
-    when "Management"
-      return User.with_role "JKL" 
-    end
-  end
-
   def assign_ticket
-    if @ticket.new_record?
-        puts "new record"
-        department = "Management"
-        case department 
-          when "Management"
-            user = User.with_role "JKL"
-            @ticket.assigned_to_id = user.first.id
-        end
-    else
-      puts "old record"
-      department = "Management"
-      case department 
-        when "Management"
-          upper_role = @ticket.assigned_to.roles.first.parent
-          user = User.with_role upper_role.name
-          @ticket.assigned_to_id = user.first.id
-      end
-    end
+    department = Department.find_by_id(@ticket.department_id)
+    upper_role = @ticket.assigned_to.roles.first.parent
+    user = department.users.with_role upper_role.name
+    @ticket.assigned_to_id = user.first.id
+    # if @ticket.new_record?
+    #     puts "new record"
+    #     department = "Management"
+    #     case department 
+    #       when "Management"
+    #         user = User.with_role "JKL"
+    #         @ticket.assigned_to_id = user.first.id
+    #     end
+    # else
+    #   puts "old record"
+    #   department = "Management"
+    #   case department 
+    #     when "Management"
+    #       upper_role = @ticket.assigned_to.roles.first.parent
+    #       user = User.with_role upper_role.name
+    #       @ticket.assigned_to_id = user.first.id
+    #   end
+    # end
   end
 
   def set_ticket

@@ -38,7 +38,7 @@ class User < ApplicationRecord
   def check_age
     if(dob != nil)
         if(Date.today.year - dob.year)<=18
-          self.errors.add(:base," must be greater than 18.")
+          self.errors.add(:dob," must be greater than 18.")
         end
     end 
   end

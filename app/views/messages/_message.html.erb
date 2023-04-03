@@ -1,18 +1,14 @@
 <% ticket.messages.each do | message |%>
-    <% if  message.user_id == current_user.id %>
-    <div  style="display: block; text-align-last: end; margin:2px; padding:0px ">
-        <p style="margin: 0px; background:skyblue;" > 
-        <%= render 'tickets/documents_attached', { model_instance: message }%>
-        <br>
-        <%= message.content %> 
-        </p>
-    <% else %>
-    <div  style="display: block; margin:2px ">
-        <p style="margin: 0px;">
-        <%= render 'tickets/documents_attached', { model_instance: message }%>
-        <br>
-        <%= message.content %>
-        </p>
-    <% end %>
-    </div>
+	<div class="message  <%= 'me' if message.user_id == current_user.id %>">
+		<div class="content-box">
+			<div class="content">
+				<%= render 'tickets/documents_attached', { model_instance: message }%>
+				<%# <br> %>
+				<%= message.content %> 
+			</div>
+			<div class="author">
+				<%= message.user.name %>
+			</div>
+		</div>
+	</div>
 <% end %>

@@ -1,8 +1,9 @@
 <div class="container"  style= "color: white;
     padding: 20px;
     width: 80%;
-    border: 2px solid white;
-    background:cornflowerblue;
+    /* border: 2px solid white; */
+    border-radius: 15px;
+    background: #31255e;
     margin: auto;" >
 
   <%= form_with model: ticket do |f| %>
@@ -16,18 +17,12 @@
       </div>
 
       <div class="col-md-6">
-      <br>
-      <br>
-        <div id="assign_to">
-        </div>
-<!--
-          <%= f.label :assigned_to,class:"form-label" %><br />
+        <%= f.label :assigned_to,class:"form-label" %><br />
           <%= f.select :assigned_to_id, options_for_select("None"),{} , class: 'form-control' %>
           <% ticket.errors.full_messages_for(:assigned_to_id).each do |message| %>
             <p class="text-danger"> <%= message %> </p>
           <% end %>
--->
-        </div>
+      </div>
 
       <div class="col-md-6">
         <%= f.label :Subject ,class:"form-label"%><br />
@@ -44,7 +39,7 @@
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
-
+<!--
       <div class="col-md-6">
         <%= f.label :due_date , class:"form-label" %><br />
         <%= f.date_field :due_date ,class:"form-control" %>
@@ -52,8 +47,8 @@
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
-
-      <div class="col-md-4">
+-->
+      <div class="col-md-6">
         <%= f.label :priority,class:"form-label" %><br />
         <%= f.select :priority, options_for_select(["🔴High" ,"🟡Medium" ,"🟢Low"]),{prompt: 'Select priority'},{class: 'form-control'} %>
         <% ticket.errors.full_messages_for(:priority).each do |message| %>
@@ -61,13 +56,13 @@
         <%end%>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-6">
         <%= f.label :documents,class:"form-label" %><br />
         <%= f.file_field :documents, multiple: true, class: "form-control"%>
       </div>
 
-      
       <div class="col-12">
+        <br>
         <button type="submit" class="btn btn-primary">CREATE TICKET</button>
       </div>
     </div>
@@ -87,10 +82,9 @@
           success: function(data){
             var options_html ='';
             $.each(data, function(index,value){
-                // options_html += '<option value="' + value.id + '">' + value.name + '</option>';
-                options_html += '<h4>' + value.name + '</h4>';
+                options_html += '<option value="' + value.id + '">' + value.name + '</option>';
             });
-            $('#assign_to').html(options_html);
+            $('#ticket_assigned_to_id').html(options_html);
             console.log(data);
           }, 
           error: function(xhr, textStatus, errorThrown) {

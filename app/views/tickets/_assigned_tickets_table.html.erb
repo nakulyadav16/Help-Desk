@@ -21,8 +21,28 @@
           <% else %>
             <td><%= ticket.creator.name %></td> 
           <% end %>
-          <td><%= ticket.priority %></td> 
-          <td><%= ticket.status %></td> 
+          <% if ticket.priority == "High"%>
+            <td><span class="badge" style="background: red; color: white;"><%= ticket.priority %></span></td>
+          <% elsif ticket.priority == "Medium" %>
+            <td><span class="badge" style="background: green; color: white;"><%= ticket.priority %></span></td>
+          <% else %>
+            <td><span class="badge" style="background: green; color: white;"><%= ticket.priority %></span></td>
+          <% end %>
+
+          <% if ticket.status == "open"%>
+            <td><span class="badge" style="background: green; color: white;">Open</span></td>
+          <% elsif ticket.status == "in_progress" %>
+            <td><span class="badge" style="background: lightgreen; color: white;">In Progress</span></td>
+          <% elsif ticket.status == "rejected" %>
+            <td><span class="badge" style="background: red; color: white;">Rejected</span></td>
+          <% elsif ticket.status == "closed" %>
+            <td><span class="badge" style="background: red; color: white;">Closed</span></td>
+          <% elsif ticket.status == "re_open" %>
+            <td><span class="badge" style="background: green; color: white;">Re Opened</span></td>
+          <% else %>
+            <td><span class="badge" style="background: lightyellow; color: white;"><%= ticket.status %></span></td>
+          <% end %>
+          <%# <td><%#= ticket.status %></td> %>
         </tr>
     <% end %>
     </tbody>

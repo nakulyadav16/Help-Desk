@@ -1,8 +1,8 @@
-<div class="card" style="width: 25rem; padding: 25px; margin: auto; background:#FFBF69; color: black;">
+<div class="card" style="width: 25rem; padding: 25px; margin: auto; background:#31255e; color: black;">
   <% if role.new_record? %>
-    <h2 style="margin:auto">New Role</h2>
+    <h2  class="text-light" style="margin:auto">New Role</h2>
   <% else %>
-    <h2 style="margin:auto">Update Role</h2>
+    <h2  class="text-light" style="margin:auto">Update Role</h2>
   <% end %>
   <br>
   <%= form_with model: role do | f | %>
@@ -13,8 +13,8 @@
       <% end %>
     </div>
     <div class="field">
-      <%= f.label :parent_id %>
-      <%= f.select :parent_id, options_from_collection_for_select(@roles, "id", "name"), class:"form-control"%>
+      <br>
+      <%= f.select :parent_id, options_from_collection_for_select(@roles, "id", "name"),{prompt: 'Select Parent Role'}, class: 'form-control' %>
     </div>
 
     <br>

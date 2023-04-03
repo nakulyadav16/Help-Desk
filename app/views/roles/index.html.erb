@@ -1,6 +1,6 @@
-<h4 style="display: inline-block;" > All Roles :</h4>
-<%= link_to "New Role", new_role_path, class:"btn btn-info mb-3" ,style:"float: right;" %>
-<table class="table"  style="background:#FFBF69 ">
+<h4> All Roles :</h4>
+<%= link_to "New Role", new_role_path, class:"btn btn-info mb-3 new-role-btn"%>
+<table class="table table-box">
   <thead>
     <tr>
       <th scope="col">Name</th>
@@ -8,13 +8,13 @@
     </tr>
   </thead>
   <tbody>
-    <% @roles.each do | role | %>
+    <% @roles.each do |role| %>
       <tr>
         <td><%= role.name %></td>
-        <td><%= link_to "Edit", edit_role_path(role)  %> |
-  <%= link_to "Delete", role_path(role), method: :delete, data: { confirm: "Are you sure ? "} %><br>
-</td>
+        <td>
+          <%= link_to "Edit", edit_role_path(role)  %> | <%= link_to "Delete", role_path(role), method: :delete,   data: { confirm: "Are you sure ? "} %><br>
+        </td>
       </tr>
-      <% end %>
+    <% end %>
   </tbody>
 </table>

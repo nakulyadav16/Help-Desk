@@ -13,3 +13,26 @@
  *= require_tree .
  *= require_self
  */
+
+body {
+  font-family: 'Poppins'; 
+  background:#CBF3F0; 
+  position: relative;  
+}
+
+.container-margin {
+  margin-top: 100px;
+}
+
+.notice {
+  background: bisque; 
+  color: red; 
+  position: absolute; 
+  margin-top: -30px;
+}
+
+.alert {
+  color: red; 
+  position: absolute; 
+  margin-top: -30px;
+}
