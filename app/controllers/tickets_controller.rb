@@ -22,7 +22,7 @@ class TicketsController < ApplicationController
 
   def create
     @ticket = current_user.tickets.new(ticket_params)
-    @ticket.due_date = (Date.today+3).to_s
+    @ticket.due_date = (Date.today + 3).to_s
     if @ticket.save
       TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver_later
       TicketHistory.new(ticket_id: @ticket.id, user_id: @ticket.assigned_to_id).save!
@@ -53,25 +53,22 @@ class TicketsController < ApplicationController
   end
 
   def fetch
-    department = Department.find_by_id(fetch_params[:department_selected_option]).department_name
-    role = Role.find_by_id(Department.find_by_id(fetch_params[:department_selected_option]).users.second.roles.first.id).descendants.last.name
-    user = User.with_role role
-    render json: user.to_json(only: [:id, :name])
-    
-    # @options = User.department_users( fetch_params[:department_selected_option] ) # using scope
-    # @options = @options.with_role "admin"
-    # users = department.users
-    # puts '--------------------------------'
-    # puts department
-    # case department
-    # when "Management"
-    #   # puts @options.pluck(:name)
-    #   @options = User.with_role "GHI" # department k lowest role ok likhna hai 
-    #   # puts @options.pluck(:name)
-    # end
+    @department_users = Department.find_by_id(fetch_params[:department_selected_option]).users
+    @assign_to = ''
+    if @department_users.count != 0
+      role = Role.find_by_id(@department_users.first.roles.first.id)
+      department_role_herarchicy_by_name = (role.path.pluck(:name) + role.descendants.pluck(:name)).reverse
+      for role in department_role_herarchicy_by_name do 
+        if @department_users.with_role role != nil
+          @assign_to = (@department_users.with_role role)
+          break
+        end
+      end
+    end
+    render json: @assign_to.to_json(only: [:id, :name])
   end
 
-  # aasm event calling methods
+  # aasm event calling action
   def status_transistion
     case params[:transistion]
       when "accept"
@@ -87,42 +84,35 @@ class TicketsController < ApplicationController
   end
 
   def upgrade
-    assign_ticket
-    if @ticket.save
-      TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver_later
-      TicketHistory.new(ticket_id: @ticket.id, user_id: @ticket.assigned_to_id).save!
-      @ticket.upgrade!
-      redirect_to @ticket, notice: "Ticket is successfully upgraded"
+    if assign_ticket
+      if @ticket.save
+        TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver_later
+        TicketHistory.new(ticket_id: @ticket.id, user_id: @ticket.assigned_to_id).save!
+        @ticket.upgrade!
+        redirect_to @ticket, notice: "Ticket is successfully upgraded"
+      else
+        redirect_to @ticket, alert: "Ticket is upgradation failed. Try again"
+      end
     else
-      render :edit
+      redirect_to @ticket, alert: "Ticket can not be upgrade. You are already on top level!!"
     end
   end
   
   private
 
   def assign_ticket
-    department = Department.find_by_id(@ticket.department_id)
-    upper_role = @ticket.assigned_to.roles.first.parent
-    user = department.users.with_role upper_role.name
-    @ticket.assigned_to_id = user.first.id
-    # if @ticket.new_record?
-    #     puts "new record"
-    #     department = "Management"
-    #     case department 
-    #       when "Management"
-    #         user = User.with_role "JKL"
-    #         @ticket.assigned_to_id = user.first.id
-    #     end
-    # else
-    #   puts "old record"
-    #   department = "Management"
-    #   case department 
-    #     when "Management"
-    #       upper_role = @ticket.assigned_to.roles.first.parent
-    #       user = User.with_role upper_role.name
-    #       @ticket.assigned_to_id = user.first.id
-    #   end
-    # end
+    @department_users = Department.find_by_id(@ticket.department_id).users
+    upper_role_by_name = (@ticket.assigned_to.roles.first.ancestors.pluck(:name)).reverse
+    if upper_role_by_name.count != 0
+      for role in upper_role_by_name do 
+        if (@department_users.with_role role).count != 0
+          @ticket.assigned_to_id  = (@department_users.with_role role).sample.id
+          return true
+        end
+      end
+    else
+      return false
+    end
   end
 
   def set_ticket
@@ -132,7 +122,7 @@ class TicketsController < ApplicationController
   end
 
   def ticket_params
-    params.require(:ticket).permit(:subject, :description, :due_date, :priority, :department_id, :assigned_to_id, :user_id, documents: [] )
+    params.require(:ticket).permit(:subject, :description, :due_date, :priority, :department_id, :assigned_to_id, :user_id, documents: [])
   end
 
   def fetch_params

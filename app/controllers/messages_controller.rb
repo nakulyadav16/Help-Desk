@@ -2,8 +2,17 @@ class MessagesController < ApplicationController
   def create
     @ticket = Ticket.find(params[:ticket_id])
     @message = @ticket.messages.new(message_params)
+    @user_name = @message.user.name
     if @message.save
-      ActionCable.server.broadcast "ticket_channel_#{@message.ticket_id}", { data: @message }
+      if @message.documents.attached?
+        @documents = []
+        @message.documents.each do |document|
+          @documents.append([rails_blob_url(document, disposition: 'inline'), document.filename])
+        end
+      end
+      puts '-----------------'
+      puts @documents
+      ActionCable.server.broadcast "ticket_channel_#{@message.ticket_id}", { message: @message, documents: @documents, user_name: @user_name }
     end
   end
 

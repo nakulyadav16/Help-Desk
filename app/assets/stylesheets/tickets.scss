@@ -47,9 +47,19 @@
     }
     .new-message-box {
       #message_content {
-        width:84%;
+        // width:84%;
         display: inline-block;
       }
+      .file-field {
+        height: 37px;
+        width: 100%;
+        text-align: center;
+        rotate: 314deg;
+        zoom: 1.4;
+      }
+      #message_documents {
+          display: none;
+        }
     }
   }
 }

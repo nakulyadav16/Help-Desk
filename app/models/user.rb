@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   attr_accessor :role
 
-  belongs_to :department 
+  belongs_to :department, optional: true 
   has_many :tickets,class_name: 'Ticket' ,foreign_key: 'creator_id' ,dependent: :destroy
   has_many :assigned_tickets,class_name: 'Ticket' ,foreign_key: 'assigned_to_id' ,dependent: :destroy
   has_many :messages , through: :tickets

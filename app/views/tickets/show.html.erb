@@ -45,16 +45,23 @@
               <div id="messages">
                 <%= render 'messages/message', ticket: @ticket%>
               </div>
-            </div>    
+            </div>
             <div class="new-message-box">
               <%= form_with(model: [@ticket , @ticket.messages.build]) do | f |%>
                 <p>
-                <br>
-                <%= f.label :documents,"Attach Document", class:"form-label" %>
-                <%= f.file_field :documents, multiple: true, class: "form-select"%>
-                <%= f.text_field :content,id: 'message_content', class: 'form-control'%> 
-                <%#= f.hidden_field :user_id , required: true,  value:current_user.id %>
-                <%= f.submit "Send",data: { disable_with: false }, class:"btn btn-primary", id:"send" %>
+                  <br>
+                  <div class="row">
+                    <div class="col-9 pr-0">
+                      <%= f.text_field :content,id: 'message_content', class: 'form-control'%> 
+                    </div>
+                    <div class="col-1 p-0">
+                        <%= f.label :documents, "📎", class:"form-label file-field" %>
+                        <%= f.file_field :documents, multiple: true, class: "form-select"%>
+                    </div>
+                    <div class="col-2 p-0">
+                      <%= f.submit "Send",data: { disable_with: false }, class:"btn btn-primary", id:"send" %>
+                    </div>
+                  </div>
                 </p>
               <% end %>
             </div>
