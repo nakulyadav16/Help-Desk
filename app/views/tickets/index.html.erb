@@ -35,7 +35,7 @@
     </div>
 
     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-      <% if @new_request_tickets.first == nil %>
+      <% if @new_raised_tickets.first == nil %>
         <h4  class="text-light"> No new request available </h4>
       <% else %>                
         <%= render 'assigned_tickets_table', { tickets: @new_raised_tickets } %>

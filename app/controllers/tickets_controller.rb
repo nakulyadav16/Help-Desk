@@ -2,7 +2,6 @@
 
 # This controller is user for handling Tickets
 class TicketsController < ApplicationController
-  include Tickets
   DAYS_TO_ADD = 3
   before_action :authenticate_user!
   before_action :find_ticket, only: %i[show edit update destroy status_transistion upgrade]
