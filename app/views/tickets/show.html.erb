@@ -43,7 +43,7 @@
             </nav>
             <div class="message-box"> 
               <div id="messages">
-                <%= render 'messages/message', ticket: @ticket%>
+                <%= render 'messages/message', ticket_messages: @ticket_messages%>
               </div>
             </div>
             <div class="new-message-box">
@@ -70,8 +70,6 @@
     </div>
   </div>
 </div>
-
-<%= @ticket_history %>
 
 <script>
   $('.message-box').stop().animate ({

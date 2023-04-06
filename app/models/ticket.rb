@@ -13,8 +13,8 @@ class Ticket < ApplicationRecord
   has_many_attached :documents
 
   # Scopes
-  scope :user_assigned_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'in_progress' or status = 'closed'") }
-  scope :new_request_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'open' or status = 're_open'") }
+  scope :assigned_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'in_progress' or status = 'closed'") }
+  scope :new_raised_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'open' or status = 're_open'") }
 
   # AASM code
   include AASM 

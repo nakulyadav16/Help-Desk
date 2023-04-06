@@ -1,4 +1,4 @@
-<% ticket.messages.each do | message |%>
+<% ticket_messages.each do | message |%>
 	<div class="message  <%= 'me' if message.user_id == current_user.id %>">
 		<div class="content-box">
 			<div class="content">

@@ -38,7 +38,7 @@
       <% if @new_request_tickets.first == nil %>
         <h4  class="text-light"> No new request available </h4>
       <% else %>                
-        <%= render 'assigned_tickets_table', { tickets: @new_request_tickets } %>
+        <%= render 'assigned_tickets_table', { tickets: @new_raised_tickets } %>
       <% end %>
     </div>    
   </div>
