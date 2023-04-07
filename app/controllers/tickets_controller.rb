@@ -6,9 +6,16 @@ class TicketsController < ApplicationController
   before_action :find_ticket, only: %i[show edit update destroy status_transistion upgrade]
 
   def index
-    @user_tickets = current_user.tickets
-    @assigned_tickets = Ticket.assigned_tickets(current_user)
-    @new_raised_tickets = Ticket.new_raised_tickets(current_user)
+    @tickets = Ticket.ransack(params[:q])
+    @user_tickets = current_user.tickets.ransack(params[:q])
+    @user_tickets = @user_tickets.result
+    @user_tickets = Ticket.priority_order(@user_tickets)
+    @assigned_tickets = Ticket.user_assigned_tickets(current_user).ransack(params[:q])
+    @assigned_tickets = @assigned_tickets.result
+    @assigend_tickets = Ticket.priority_order(@assigned_tickets)
+    @new_request_tickets = Ticket.new_request_tickets(current_user).ransack(params[:q])
+    @new_request_tickets = @new_request_tickets.result
+    @new_request_tickets = Ticket.priority_order(@new_request_tickets)
   end
 
   def show

@@ -14,9 +14,20 @@ class Ticket < ApplicationRecord
   has_many_attached :documents
 
   # Scopes
-  scope :assigned_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'in_progress' or status = 'closed'") }
-  scope :new_raised_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'open' or status = 're_open'") }
-
+  scope :user_assigned_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'in_progress' or status = 'closed'") }
+  scope :new_request_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'open' or status = 're_open'") }
+  
+  def self.priority_order(tickets)
+    tickets.order( 
+      Arel.sql(<<-SQL.squish 
+        CASE 
+        WHEN priority = 'High' THEN '1' 
+        WHEN priority = 'Medium' THEN '2' 
+        WHEN priority = 'Low' THEN '3' 
+        END 
+      SQL
+      ) )
+  end
   # AASM code
   include AASM 
 
