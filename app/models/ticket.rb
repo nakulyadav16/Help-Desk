@@ -1,5 +1,8 @@
 class Ticket < ApplicationRecord
   before_save :add_due_date,if: :new_record? || :assigned_to_changed?
+  extend FriendlyId
+  friendly_id :generated_slug, use: :slugged
+
   # Validations
   validates :subject ,:description ,:department_id, :assigned_to, :priority , presence: true
   

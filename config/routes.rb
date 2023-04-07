@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :tickets do
+  resources :tickets, param: :slug do
     member do
       patch :upgrade
       patch :status_transistion

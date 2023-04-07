@@ -43,6 +43,8 @@ gem 'letter_opener'
 
 gem "rolify"
 
+gem 'friendly_id'
+
 gem 'ancestry'
 
 gem 'shoulda'
