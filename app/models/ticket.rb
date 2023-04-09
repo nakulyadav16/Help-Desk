@@ -1,6 +1,7 @@
 class Ticket < ApplicationRecord
+  before_save :add_due_date,if: :new_record? || :assigned_to_changed?
   # Validations
-  validates :subject ,:description ,:department_id, :assigned_to,:due_date, :priority , presence: true
+  validates :subject ,:description ,:department_id, :assigned_to, :priority , presence: true
   
   # Associations
   has_many :messages , dependent: :destroy
@@ -46,6 +47,10 @@ class Ticket < ApplicationRecord
     event :close do 
       transitions from: [:open , :re_open , :rejected ] , to: :closed
     end
+  end
+
+  def add_due_date
+    self.due_date = (Date.today() + 3).to_s
   end
 end
 

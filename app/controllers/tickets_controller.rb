@@ -2,7 +2,6 @@
 
 # This controller is user for handling Tickets
 class TicketsController < ApplicationController
-  DAYS_TO_ADD = 3
   before_action :authenticate_user!
   before_action :find_ticket, only: %i[show edit update destroy status_transistion upgrade]
 
@@ -23,10 +22,9 @@ class TicketsController < ApplicationController
 
   def create
     @ticket = current_user.tickets.new(ticket_params)
-    @ticket.due_date = (Date.today + DAYS_TO_ADD).to_s
     if @ticket.save
       send_mail_and_create_history(@ticket)
-      redirect_to tickets_path, notice: 'New Ticket is successfully created'
+      redirect_to tickets_path, notice: t('notice.new_ticket')
     else
       render :new
     end
@@ -38,7 +36,7 @@ class TicketsController < ApplicationController
     if @ticket.update(ticket_params)
       send_mail_and_create_history(@ticket)
       @ticket.upgrade!
-      redirect_to @ticket, notice: 'Ticket is successfully updated'
+      redirect_to @ticket, notice: t('notice.ticket_updated')
     else
       render :edit
     end
@@ -46,7 +44,7 @@ class TicketsController < ApplicationController
 
   def destroy
     @ticket.destroy
-    redirect_to tickets_path, notice: 'Ticket is successfully deleted'
+    redirect_to tickets_path, notice: t('notice.ticket_deleted')
   end
 
   def fetch
@@ -55,8 +53,11 @@ class TicketsController < ApplicationController
   end
 
   def status_transistion
-    perform_transistion(params[:transistion])
-    redirect_to @ticket
+    if perform_transistion(params[:transistion])
+      redirect_to @ticket
+    else
+      redirect_to @ticket, notice: t('notice.transistion_failed')
+    end
   end
 
   def upgrade
@@ -64,12 +65,12 @@ class TicketsController < ApplicationController
       if @ticket.save
         send_mail_and_create_history(@ticket)
         @ticket.upgrade!
-        redirect_to @ticket, notice: 'Ticket is successfully upgraded'
+        redirect_to @ticket, notice: t('notice.ticket_upgraded')
       else
-        redirect_to @ticket, alert: 'Ticket is upgradation failed. Try again'
+        redirect_to @ticket, alert: t('notice.ticket_upgrade_failed')
       end
     else
-      redirect_to @ticket, alert: 'Ticket can not be upgrade. You are already on top level!!'
+      redirect_to @ticket, alert: t('notice.top_level_ticket')
     end
   end
 
@@ -90,19 +91,16 @@ class TicketsController < ApplicationController
 
   def assign_ticket_to_superior
     old_assigned_user_id = @ticket.assigned_to_id
-    department_users = Department.find_by_id(@ticket.department_id).users
-    superior_role_by_name = @ticket.assigned_to.roles.first.ancestors.pluck(:name).reverse
-    if superior_role_by_name.count != 0
-      superior_role_by_name.each do |role|
-        if (department_users.with_role role).count != 0
-          @ticket.assigned_to_id = (department_users.with_role role).sample.id
-          break
-        end
+    department_users = Department.includes(users: :roles).find_by_id(@ticket.department_id).users
+    superior_role_hierarchy = @ticket.assigned_to.roles.first.ancestors.pluck(:name).reverse
+    superior_role_hierarchy.each do |role|
+      users = department_users.with_role(role)
+      if users.any?
+        @ticket.assigned_to_id = users.sample.id
+        break
       end
-    else
-      return false
     end
-    @ticket.assigned_to_id == old_assigned_user_id ? false : true
+    @ticket.assigned_to_id != old_assigned_user_id
   end
 
   def perform_transistion(transistion)
@@ -115,8 +113,13 @@ class TicketsController < ApplicationController
       @ticket.satisfy!
     when 'close'
       @ticket.close!
+    else
+      raise ArgumentError.new()
     end
     TicketGenerationMailer.ticket_acceptance(@ticket).deliver_later
+    return true
+  rescue ArgumentError
+    false
   end
 
   def send_mail_and_create_history(ticket)
@@ -125,19 +128,17 @@ class TicketsController < ApplicationController
   end
 
   def ticket_history
-    ids = @ticket.ticket_histories.pluck(:user_id)
-    user_name = User.find(ids).index_by(&:id).values_at(*ids).pluck(:name)
-    ticket_history = @ticket.ticket_histories.pluck(:user_id, :created_at)
-    ticket_history.each_with_index do |ele, index|
-      ele[0] = user_name[index]
-    end
-    ticket_history
+    @ticket.ticket_histories
+           .joins(:user)
+           .select('users.name', :created_at)
+           .map { |history| [history.name, history.created_at] }
   end
+  
 
   def find_ticket
-    @ticket = Ticket.find_by_id(params[:id])
+    @ticket = Ticket.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to tickets_path, notice: 'Something went wrong'
+    redirect_to tickets_path, notice: t('notice.ticket_not_found')
   end
 
   def ticket_params

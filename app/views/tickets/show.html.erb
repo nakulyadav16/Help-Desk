@@ -13,7 +13,7 @@
             <strong> Description : </strong> <%= @ticket.description %> 
           </p>
           <p class="lead">
-            <strong> Due Date : </strong> <%= @ticket.due_date %> 
+            <strong> Due Date : </strong> <%= @ticket.due_date.strftime("%d-%m-%Y") %> 
           </p>
           <p class="lead">
             <strong> Priority : </strong> <%= @ticket.priority %> 
@@ -43,23 +43,23 @@
             </nav>
             <div class="message-box"> 
               <div id="messages">
-                <%= render 'messages/message', ticket_messages: @ticket_messages%>
+                <%= render 'messages/message', ticket_messages: @ticket_messages %>
               </div>
             </div>
             <div class="new-message-box">
-              <%= form_with(model: [@ticket , @ticket.messages.build]) do | f |%>
+              <%= form_with(model: [@ticket, @ticket.messages.build]) do | f |%>
                 <p>
                   <br>
                   <div class="row">
                     <div class="col-9 pr-0">
-                      <%= f.text_field :content,id: 'message_content', class: 'form-control'%> 
+                      <%= f.text_field :content, id: 'message_content', class: 'form-control' %> 
                     </div>
                     <div class="col-1 p-0">
                         <%= f.label :documents, "📎", class:"form-label file-field" %>
-                        <%= f.file_field :documents, multiple: true, class: "form-select"%>
+                        <%= f.file_field :documents, multiple: true, class: "form-select" %>
                     </div>
                     <div class="col-2 p-0">
-                      <%= f.submit "Send",data: { disable_with: false }, class:"btn btn-primary", id:"send" %>
+                      <%= f.submit "Send", data: { disable_with: false }, class:"btn btn-primary", id:"send" %>
                     </div>
                   </div>
                 </p>
