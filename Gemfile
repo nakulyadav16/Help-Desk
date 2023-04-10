@@ -49,8 +49,7 @@ gem 'shoulda'
 gem 'ransack'
 gem 'sidekiq', '<7'
 
-gem 'sidekiq-scheduler'
-
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

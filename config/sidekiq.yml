@@ -1,4 +1,0 @@
-:schedule:
-  ticket_reminder_Worker:
-    cron: "0 0 * * *"
-    class: TicketReminderWorker

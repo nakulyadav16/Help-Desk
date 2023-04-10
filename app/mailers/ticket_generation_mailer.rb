@@ -10,8 +10,8 @@ class TicketGenerationMailer < ApplicationMailer
     mail(form: 'helpdesk@t.com', to: ticket.creator.email, subject: 'Your Ticket has been accepted')
   end
 
-  ticket_reminder(assigned_to_user)
-    @assigned_to_user  = assigned_to_user       
+  def ticket_reminder(assigned_to_user)
+    @assigned_to_user  = assigned_to_user
     mail(from: "helpDesk@t.com" ,to: @assigned_to_user.email , subject: "Remainder for ticket")
   end
   

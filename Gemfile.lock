@@ -82,6 +82,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    chronic (0.10.2)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.0)
     crass (1.0.6)
@@ -104,9 +105,6 @@ GEM
     et-orbi (1.2.7)
       tzinfo
     ffi (1.15.5)
-    fugit (1.8.1)
-      et-orbi (~> 1, >= 1.2.7)
-      raabro (~> 1.4)
     globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -156,7 +154,6 @@ GEM
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
-    raabro (1.4.0)
     racc (1.6.2)
     rack (2.2.6.4)
     rack-mini-profiler (2.3.4)
@@ -224,8 +221,6 @@ GEM
       rspec-support (~> 3.11)
     rspec-support (3.12.0)
     rubyzip (2.3.2)
-    rufus-scheduler (3.8.2)
-      fugit (~> 1.1, >= 1.1.6)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -251,10 +246,6 @@ GEM
       connection_pool (>= 2.2.5, < 3)
       rack (~> 2.0)
       redis (>= 4.5.0, < 5)
-    sidekiq-scheduler (5.0.2)
-      rufus-scheduler (~> 3.2)
-      sidekiq (>= 6, < 8)
-      tilt (>= 1.4.0)
     spring (4.1.1)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -291,6 +282,8 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.7)
@@ -324,13 +317,13 @@ DEPENDENCIES
   selenium-webdriver (>= 4.0.0.rc1)
   shoulda
   sidekiq (< 7)
-  sidekiq-scheduler
   spring
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
+  whenever
 
 RUBY VERSION
    ruby 3.0.0p0
