@@ -8,8 +8,8 @@ class TicketsController < ApplicationController
   def index
     @tickets = Ticket.ransack(params[:q])
     @user_tickets = Ticket.due_date_order(search_users_tickets)
-    @assigend_tickets = search_users_assigend_tickets
-    @new_request_tickets = search_new_request_tickets
+    @assigend_tickets = Ticket.due_date_order(search_users_assigend_tickets)
+    @new_request_tickets = Ticket.due_date_order(search_new_request_tickets)
   end
 
   def show
