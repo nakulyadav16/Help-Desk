@@ -1,22 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe Department, type: :model do
-  context 'creating department' do
-    let(:department) { build :department }
-    let(:department2) { build :department, department_name: department.department_name }
 
-    it 'is valid' do
-      expect(department).to be_valid
+  describe 'associations' do
+    it { should have_many(:users) }
+    it 'upon destroying department its associated user should be destroy' do 
+      department = create(:department)
+      user = create(:user, department: department)
+      expect{ department.destroy }.to change { User.count }.by(-1)
     end
+  end
 
-    it 'is invalid' do
-      expect(department2[:department_name]).to eq(department[:department_name])
-    end
+  describe 'validations' do 
+    it { should validate_presence_of :department_name }
+  end
 
-    it 'is successfully done' do
-      department.save
-      expect(department[:id]).not_to be nil
-      expect(department[:department_name]).to be_present
+  describe 'before_save' do 
+    it 'create department and capitalize name' do
+      department = create(:department, department_name: 'finance')
+      expect(department.department_name).to eq('Finance')
     end
   end
 end

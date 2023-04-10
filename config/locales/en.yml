@@ -40,5 +40,8 @@ en:
           attributes:
             dob:
               blank: "is required"
+              less_age: 'must be greater than 18.'
+      messages:
+        age_limit: 'must be greater than 18.'
               
 

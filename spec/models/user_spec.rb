@@ -1,34 +1,45 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  context 'creating new user' do
-    let(:user) { build :user }
-    let(:user2) { build :user, email: user.email, contact: user.contact }
-
-    it 'is valid' do
-      expect(user).to be_valid
-    end
-
-    it 'is partially completed registration' do
-      expect(User.create[:id]).to be nil
-      expect { User.create! }.to raise_error(ActiveRecord::RecordInvalid)
-    end
-
-    it 'should raise error when duplicate contact is entered' do
-      user.save
-      expect(user2.save).to be(false)
+  describe 'association' do
+    it { should belong_to(:department).optional }
+    it { should have_many(:tickets).class_name('Ticket').with_foreign_key('creator_id') }
+    it { should have_many(:assigned_tickets).class_name('Ticket').with_foreign_key('assigned_to_id') }
+    it { should have_many(:messages) }
+    it { should have_many(:assigned_tickets) }
+    it { should have_one_attached(:profile_pic) }
+    it "upon deleting user decrease department's user count by -1" do
+      department = create(:department)
+      user = create(:user, department: department)
+      expect{ user.destroy }.to change { department.users.count }.by(-1)
     end
   end
 
-  context 'before user registration' do
-    it 'user can not have tickets' do
-      expect { User.create.tickets.create! }.to raise_error(ActiveRecord::RecordNotSaved)
-      expect(User.create.tickets.count).to be 0
+  describe 'validations' do
+    it { should validate_presence_of :name }
+    it { should validate_presence_of :contact }
+    it { should validate_presence_of :department_id }
+    it { should validate_presence_of :dob }
+    it 'validates that age is above given age limit' do
+      user = create(:user)
+      user.dob = '2007-04-10'
+      user.validate
+      expect(user.errors[:dob]).to include('must be greater than 18.') 
     end
+  end
 
-    it 'user can not have messages' do
-      expect { User.create.messages.create! }.to raise_error(ActiveRecord::RecordNotSaved)
-      expect(User.create.messages.count).to be 0
+  describe 'scopes' do
+    it 'return user of given department' do
+      department = create(:department)
+      user = create(:user, department: department)
+      expect(User.department_users(department)).to include(user)
+    end
+  end
+
+  describe 'after_create' do 
+    it 'add specified role' do
+      user = create(:user, role: 'admin')
+      expect(user.has_role?(:admin)).to be(true)
     end
   end
 end

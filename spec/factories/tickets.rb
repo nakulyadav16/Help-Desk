@@ -1,12 +1,12 @@
 FactoryBot.define do
   factory :ticket do
-    subject { 3.times.map { (0...(rand(10))).map { ('a'..'z').to_a[rand(26)] }.join }.join(' ') }
-    description { 20.times.map { (0...(rand(10))).map { ('a'..'z').to_a[rand(26)] }.join }.join(' ') }
+    subject { Faker::Lorem.sentence(word_count: 5) }
+    description { Faker::Lorem.sentence(word_count: 15) }
     due_date { Faker::Date.forward(days: 3) }
     priority { 'High' }
-    assigned_to_id { rand(1..10) }
-    creator_id { rand(1..10) }
-    department_id { rand(1..10) }
+    assigned_to { create(:user) }
+    creator { create(:user) }
+    department { create(:department) }
     status { 'open' }
   end
 end

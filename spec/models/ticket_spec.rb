@@ -1,35 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe Ticket, type: :model do
-  let(:ticket) { build :ticket }
-  let(:ticket2) { build :ticket, assigned_to_id: 1, creator_id: 1 }
-  context 'Ticket' do
-    it 'is valid' do
-      expect(ticket[:assigned_to_id]).not_to eq(ticket[:creator_id])
-      expect(ticket[:department_id]).not_to be_nil
-      expect(ticket[:status]).to eq('open')
-    end
-
-    it 'is invalid' do
-      expect(Ticket.create[:id]).to be nil
-      expect(ticket2[:assigned_to_id]).to eq(ticket2[:creator_id])
-      expect(Ticket.create[:subject]).to be nil
-    end
-
-    it 'is created succesfully' do
-      ticket.save
-      expect(ticket.messages.count).to be 0
-      expect(ticket.ticket_histories.count).to be 0
-    end
+  
+  describe 'association' do
+    it { should belong_to(:creator).class_name('User') }
+    it { should belong_to(:assigned_to).class_name('User') }
+    it { should belong_to(:department) }
+    it { should have_many(:messages).dependent(:destroy) }
+    it { should have_many(:ticket_histories).dependent(:destroy) }
+    it { should have_many_attached(:documents) }
   end
 
-  context 'when ticket is not created' do
-    it 'message can not be created' do
-      expect { Ticket.create.messages.create! }.to raise_error(ActiveRecord::RecordNotSaved)
+  describe 'validations' do
+    it { should validate_presence_of(:subject) }
+    it { should validate_presence_of(:description) }
+    it { should validate_presence_of(:department_id) }
+    it { should validate_presence_of(:assigned_to) }
+    it { should validate_presence_of(:priority) }
+  end
+
+  describe 'scopes' do
+    it 'return assigned ticket which have status either in_progress or closed' do
+      user = create(:user)
+      ticket1 = create(:ticket, assigned_to: user, status: 'in_progress')
+      ticket2 = create(:ticket, assigned_to: user, status: 'closed')
+      expect(Ticket.user_assigned_tickets(user)).to include(ticket1, ticket2)
     end
 
-    it 'histroy can not be created' do
-      expect { Ticket.create.ticket_histories.create! }.to raise_error(ActiveRecord::RecordNotSaved)
+    it 'return newly raised ticket' do
+      user = create(:user)
+      ticket = create(:ticket, assigned_to: user)
+      expect(Ticket.new_request_tickets(user)).to include(ticket)
     end
   end
 end
