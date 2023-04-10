@@ -25,7 +25,7 @@
     <div class="col-9 ticket-box">
       <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-      <% if @user_tickets.first == nil %>
+      <% if @user_tickets&.first == nil %>
         <h4 class="text-light"> You have not created any ticket. </h4>
       <% else %>
         <%= render 'assigned_tickets_table', { tickets: @user_tickets } %>
@@ -33,7 +33,7 @@
     </div> 
     
     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-      <% if @assigned_tickets.first == nil%>
+      <% if @assigned_tickets&.first == nil%>
         <h4 class="text-light"> No one has assigned any ticket to you </h4>
       <% else %>
           <%= render 'assigned_tickets_table', {tickets: @assigned_tickets } %>
@@ -41,7 +41,7 @@
     </div>
 
     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-      <% if @new_raised_tickets.first == nil %>
+      <% if @new_request_tickets&.first == nil %>
         <h4  class="text-light"> No new request available </h4>
       <% else %>                
         <%= render 'assigned_tickets_table', { tickets: @new_raised_tickets } %>

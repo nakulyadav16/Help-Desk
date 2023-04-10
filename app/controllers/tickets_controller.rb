@@ -7,15 +7,9 @@ class TicketsController < ApplicationController
 
   def index
     @tickets = Ticket.ransack(params[:q])
-    @user_tickets = current_user.tickets.ransack(params[:q])
-    @user_tickets = @user_tickets.result
-    @user_tickets = Ticket.priority_order(@user_tickets)
-    @assigned_tickets = Ticket.user_assigned_tickets(current_user).ransack(params[:q])
-    @assigned_tickets = @assigned_tickets.result
-    @assigend_tickets = Ticket.priority_order(@assigned_tickets)
-    @new_request_tickets = Ticket.new_request_tickets(current_user).ransack(params[:q])
-    @new_request_tickets = @new_request_tickets.result
-    @new_request_tickets = Ticket.priority_order(@new_request_tickets)
+    @user_tickets = Ticket.due_date_order(search_users_tickets)
+    @assigend_tickets = search_users_assigend_tickets
+    @new_request_tickets = search_new_request_tickets
   end
 
   def show
@@ -96,5 +90,17 @@ class TicketsController < ApplicationController
 
   def selected_department_params
     params.permit(:department_selected_option)
+  end
+
+  def search_users_tickets
+    Ticket.priority_order(current_user.tickets.ransack(params[:q]).result)
+  end
+
+  def search_users_assigend_tickets
+    Ticket.priority_order(Ticket.user_assigned_tickets(current_user).ransack(params[:q]).result)
+  end
+
+  def search_new_request_tickets
+    Ticket.priority_order(Ticket.new_request_tickets(current_user).ransack(params[:q]).result)
   end
 end
