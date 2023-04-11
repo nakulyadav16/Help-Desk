@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe Department, type: :model do
 
   describe 'associations' do
-    it { should have_many(:users) }
+    let(:department) { create(:department) }
+    let(:user) { create(:user, department: department) }
+    it { should have_many(:users).dependent(:destroy) }
     it 'upon destroying department its associated user should be destroy' do 
-      department = create(:department)
-      user = create(:user, department: department)
       expect{ department.destroy }.to change { User.count }.by(-1)
     end
   end
@@ -16,8 +16,8 @@ RSpec.describe Department, type: :model do
   end
 
   describe 'before_save' do 
+    let(:department) { create(:department, department_name: 'finance') }
     it 'create department and capitalize name' do
-      department = create(:department, department_name: 'finance')
       expect(department.department_name).to eq('Finance')
     end
   end
