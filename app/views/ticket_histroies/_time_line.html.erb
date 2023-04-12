@@ -1,20 +1,20 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-title">Ticket Timeline</h6>
-                    <div id="content">
-                        <ul class="timeline">
-                            <% ticket_assigned_history.each do |name| %>
-                                <li class="event">
-                                    <h3><%= name %></h3>
-                                </li>
-                            <% end %>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<h6 class="card-title">Ticket Timeline</h6>
+					<div id="content">
+						<ul class="timeline">
+							<% ticket_assigned_history.each do |history| %>
+								<li class="event">
+									<h3><%= history[0] %></h3><p><%= history[1].strftime("%d-%m-%Y") %></p>
+								</li>
+							<% end %>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
