@@ -6,8 +6,8 @@
         <%= f.label :department_id,class:"form-label" %><br />
         <%= f.select :department_id, options_for_select( get_departments ),{prompt: 'Select department'}, class: 'form-control' %>
         <% ticket.errors.full_messages_for(:department_id).each do |message| %>
-          <p class="text-danger"> <%=message%> </p>
-        <%end%>
+          <p class="text-danger"> <%= message %> </p>
+        <% end %>
       </div>
 
       <div class="col-md-6">
@@ -22,7 +22,7 @@
         <%= f.label :Subject ,class:"form-label"%><br />
         <%= f.text_field :subject,class:"form-control", autofocus: true%>
         <% ticket.errors.full_messages_for(:subject).each do |message| %>
-          <p class="text-danger"> <%=message%> </p>
+          <p class="text-danger"> <%= message %> </p>
         <%end%>
       </div>
 
@@ -30,7 +30,7 @@
         <%= f.label :description ,class:"form-label" %><br />
         <%= f.text_field :description, class:"form-control",  autocomplete: "email" %>
         <% ticket.errors.full_messages_for(:description).each do |message| %>
-          <p class="text-danger"> <%=message%> </p>
+          <p class="text-danger"> <%= message %> </p>
         <%end%>
       </div>
 <!--
@@ -44,9 +44,9 @@
 -->
       <div class="col-md-6">
         <%= f.label :priority,class:"form-label" %><br />
-        <%= f.select :priority, options_for_select(["🔴High" ,"🟡Medium" ,"🟢Low"]),{prompt: 'Select priority'},{class: 'form-control'} %>
+        <%= f.select :priority, options_for_select(["High" ,"Medium" ,"Low"]),{prompt: 'Select priority'},{class: 'form-control'} %>
         <% ticket.errors.full_messages_for(:priority).each do |message| %>
-          <p class="text-danger"> <%=message%> </p>
+          <p class="text-danger"> <%= message %> </p>
         <%end%>
       </div>
 
@@ -57,7 +57,7 @@
 
       <div class="col-12">
         <br>
-        <button type="submit" class="btn btn-primary">CREATE TICKET</button>
+        <%= f.submit class:"btn btn-primary"%>
       </div>
     </div>
   <% end %>

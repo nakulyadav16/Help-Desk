@@ -6,9 +6,10 @@ class TicketsController < ApplicationController
   before_action :find_ticket, only: %i[show edit update destroy status_transistion upgrade]
 
   def index
-    @user_tickets = current_user.tickets
-    @assigned_tickets = Ticket.assigned_tickets(current_user)
-    @new_raised_tickets = Ticket.new_raised_tickets(current_user)
+    @tickets = Ticket.ransack(params[:q])
+    @user_tickets = TicketManager::UserTicketFinder.call(current_user, params[:q])
+    @assigned_tickets = TicketManager::UserAssignedTicketFinder.call(current_user, params[:q])
+    @new_request_tickets = TicketManager::NewRaisedTicketFinder.call(current_user, params[:q])
   end
 
   def show
