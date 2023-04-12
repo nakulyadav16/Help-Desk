@@ -16,9 +16,9 @@ class Ticket < ApplicationRecord
   # Scopes
   scope :user_assigned_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'in_progress' or status = 'closed'") }
   scope :new_request_tickets, ->(current_user) { current_user.assigned_tickets.where("status = 'open' or status = 're_open'") }
-  
-  def self.priority_order(tickets)
+  scope :order_by_due_date_and_priority, ->(tickets) { 
     tickets.order(
+      due_date: :asc).order(
       Arel.sql(<<-SQL.squish 
         CASE 
         WHEN priority = 'High' THEN '1' 
@@ -26,12 +26,9 @@ class Ticket < ApplicationRecord
         WHEN priority = 'Low' THEN '3' 
         END 
       SQL
-      ) )
-  end
+      ) ) 
+    }
 
-  def self.due_date_order(tickets)
-    tickets.order(due_date: :asc)
-  end
   # AASM code
   include AASM 
 

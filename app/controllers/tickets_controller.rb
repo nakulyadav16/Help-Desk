@@ -7,9 +7,9 @@ class TicketsController < ApplicationController
 
   def index
     @tickets = Ticket.ransack(params[:q])
-    @user_tickets = Ticket.due_date_order(search_users_tickets)
-    @assigend_tickets = Ticket.due_date_order(search_users_assigend_tickets)
-    @new_request_tickets = Ticket.due_date_order(search_new_request_tickets)
+    @user_tickets = TicketManager::UserTicketFinder.call(current_user, params[:q])
+    @assigned_tickets = TicketManager::UserAssignedTicketFinder.call(current_user, params[:q])
+    @new_request_tickets = TicketManager::NewRaisedTicketFinder.call(current_user, params[:q])
   end
 
   def show
@@ -90,17 +90,5 @@ class TicketsController < ApplicationController
 
   def selected_department_params
     params.permit(:department_selected_option)
-  end
-
-  def search_users_tickets
-    Ticket.priority_order(current_user.tickets.ransack(params[:q]).result)
-  end
-
-  def search_users_assigend_tickets
-    Ticket.priority_order(Ticket.user_assigned_tickets(current_user).ransack(params[:q]).result)
-  end
-
-  def search_new_request_tickets
-    Ticket.priority_order(Ticket.new_request_tickets(current_user).ransack(params[:q]).result)
   end
 end
