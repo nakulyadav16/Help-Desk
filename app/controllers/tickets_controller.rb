@@ -77,7 +77,7 @@ class TicketsController < ApplicationController
 
   private
 
-  def set_ticket
+  def find_ticket
     @ticket = Ticket.friendly.find(params[:slug])
   rescue ActiveRecord::RecordNotFound => error
     redirect_to tickets_path, notice: "Something went wrong"

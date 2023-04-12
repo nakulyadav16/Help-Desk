@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   def create
-    @ticket = Ticket.find(params[:ticket_id])
+    @ticket = Ticket.find_by_slug(params[:ticket_slug])
     @message = @ticket.messages.new(message_params)
     @user_name = @message.user.name
     if @message.save
