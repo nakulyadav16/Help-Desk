@@ -77,10 +77,10 @@ class TicketsController < ApplicationController
 
   private
 
-  def find_ticket
-    @ticket = Ticket.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to tickets_path, notice: t('notice.ticket_not_found')
+  def set_ticket
+    @ticket = Ticket.friendly.find(params[:slug])
+  rescue ActiveRecord::RecordNotFound => error
+    redirect_to tickets_path, notice: "Something went wrong"
   end
 
   def ticket_params
