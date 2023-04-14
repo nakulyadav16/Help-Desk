@@ -5,7 +5,6 @@
         </p>
     <% end %>
     <% model_instance.documents.each do |document|%>
-    <%= link_to document.filename, rails_blob_path(document, disposition: 'inline') %>
-    <br>
+        <%= link_to document.filename, rails_blob_path(document, disposition: 'inline') %> | 
     <% end %>
 <% end %>

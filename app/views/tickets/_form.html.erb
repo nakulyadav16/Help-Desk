@@ -1,33 +1,28 @@
-<div class="container"  style= "color: white;
-    padding: 20px;
-    width: 80%;
-    border: 2px solid white;
-    background:cornflowerblue;
-    margin: auto;" >
+<div class="container form-box">
 
   <%= form_with model: ticket do |f| %>
     <div class="row g-3">
       <div class="col-md-6">
         <%= f.label :department_id,class:"form-label" %><br />
-        <%= f.select :department_id, options_for_select( @departments.map{|department| [department.department_name,department.id]}),{prompt: 'Select department'}, class: 'form-control' %>
+        <%= f.select :department_id, options_for_select( get_departments ),{prompt: 'Select department'}, class: 'form-control' %>
         <% ticket.errors.full_messages_for(:department_id).each do |message| %>
-          <p class="text-danger"> <%=message%> </p>
-        <%end%>
+          <p class="text-danger"> <%= message %> </p>
+        <% end %>
       </div>
 
       <div class="col-md-6">
-          <%= f.label :assigned_to,class:"form-label" %><br />
+        <%= f.label :assigned_to,class:"form-label" %><br />
           <%= f.select :assigned_to_id, options_for_select("None"),{} , class: 'form-control' %>
           <% ticket.errors.full_messages_for(:assigned_to_id).each do |message| %>
             <p class="text-danger"> <%= message %> </p>
           <% end %>
-        </div>
+      </div>
 
       <div class="col-md-6">
         <%= f.label :Subject ,class:"form-label"%><br />
         <%= f.text_field :subject,class:"form-control", autofocus: true%>
         <% ticket.errors.full_messages_for(:subject).each do |message| %>
-          <p class="text-danger"> <%=message%> </p>
+          <p class="text-danger"> <%= message %> </p>
         <%end%>
       </div>
 
@@ -35,10 +30,10 @@
         <%= f.label :description ,class:"form-label" %><br />
         <%= f.text_field :description, class:"form-control",  autocomplete: "email" %>
         <% ticket.errors.full_messages_for(:description).each do |message| %>
-          <p class="text-danger"> <%=message%> </p>
+          <p class="text-danger"> <%= message %> </p>
         <%end%>
       </div>
-
+<!--
       <div class="col-md-6">
         <%= f.label :due_date , class:"form-label" %><br />
         <%= f.date_field :due_date ,class:"form-control" %>
@@ -46,23 +41,23 @@
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
-
-      <div class="col-md-4">
+-->
+      <div class="col-md-6">
         <%= f.label :priority,class:"form-label" %><br />
-        <%= f.select :priority, options_for_select(["🔴High" ,"🟡Medium" ,"🟢Low"]),{prompt: 'Select priority'},{class: 'form-control'} %>
+        <%= f.select :priority, options_for_select(["High" ,"Medium" ,"Low"]),{prompt: 'Select priority'},{class: 'form-control'} %>
         <% ticket.errors.full_messages_for(:priority).each do |message| %>
-          <p class="text-danger"> <%=message%> </p>
+          <p class="text-danger"> <%= message %> </p>
         <%end%>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-6">
         <%= f.label :documents,class:"form-label" %><br />
         <%= f.file_field :documents, multiple: true, class: "form-control"%>
       </div>
 
-      
       <div class="col-12">
-        <button type="submit" class="btn btn-primary">CREATE TICKET</button>
+        <br>
+        <%= f.submit class:"btn btn-primary"%>
       </div>
     </div>
   <% end %>
@@ -84,6 +79,7 @@
                 options_html += '<option value="' + value.id + '">' + value.name + '</option>';
             });
             $('#ticket_assigned_to_id').html(options_html);
+            console.log(data);
           }, 
           error: function(xhr, textStatus, errorThrown) {
                         console.log('Error fetching options: ' + errorThrown);

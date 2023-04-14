@@ -1,7 +1,7 @@
-<h4 style="display: inline-block;" > All Department : </h4>
-<%= link_to "New Department", new_department_path , class:"btn btn-info mb-3" ,style:"float: right;" %>
+<h4 class="index-heading" > All Department : </h4>
+<%= link_to "New Department", new_department_path , class:"btn btn-info mb-3 new-department-btn"%>
 
-<table class="table"  style="background:#FFBF69 ">
+<table class="table table-box">
   <thead>
     <tr>
       <th scope="col">Name</th>
@@ -13,9 +13,8 @@
       <tr>
         <td><%= department.department_name %></td>
         <td><%= link_to "Edit", edit_department_path(department) %> |
-  <%= link_to "Delete", department_path(department), method: :delete, data: { confirm: "Are you sure ? All User and thier activity will also be deleted. "} %><br>
-</td>
+        <%= link_to "Delete", department_path(department), method: :delete, data: { confirm: "Are you sure ? All User and thier activity will also be deleted. "} %><br></td>
       </tr>
-      <% end %>
+    <% end %>
   </tbody>
 </table>

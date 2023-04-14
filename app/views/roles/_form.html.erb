@@ -1,17 +1,22 @@
-<div class="card" style="width: 25rem; padding: 25px; margin: auto; background:#FFBF69; color: black;">
+<div class="card form-box">
   <% if role.new_record? %>
-    <h2 style="margin:auto">New Role</h2>
+    <h2>New Role</h2>
   <% else %>
-    <h2 style="margin:auto">Update Role</h2>
+    <h2>Update Role</h2>
   <% end %>
   <br>
   <%= form_with model: role do | f | %>
     <div class="field">
-      <%= f.email_field :name, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"Role name" %>
+      <%= f.text_field :name, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"Role name" %>
       <% role.errors.full_messages_for(:name).each do |message| %>
         <div><%= message %></div>
       <% end %>
     </div>
+    <div class="field">
+      <br>
+      <%= f.select :parent_id, options_from_collection_for_select(@roles, "id", "name"),{prompt: 'Select Parent Role'}, class: 'form-control' %>
+    </div>
+
     <br>
     <div class="actions">
       <%= f.submit class:"form-control btn-info"%>

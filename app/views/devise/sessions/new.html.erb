@@ -1,5 +1,5 @@
-<div class="card" style="width: 25rem; padding: 25px; margin: auto;background:#FFBF69;color: black;">
-  <h2 style="margin:auto">Log in</h2>
+<div class="card login-box">
+  <h2>Log in</h2>
   <br>
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
@@ -21,7 +21,7 @@
     </div>
   <% end %>
   <br>
-  <div style = "color: black;">
+  <div>
     <%= render "devise/shared/links" %>
   </div>
 </div>

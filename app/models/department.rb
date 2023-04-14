@@ -3,7 +3,7 @@ class Department < ApplicationRecord
   
   has_many :users, dependent: :destroy
 
-  validates :department_name, presence: true
+  validates :department_name, presence: true, uniqueness: true
 
   private 
   def capitalize_name

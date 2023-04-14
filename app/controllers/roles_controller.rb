@@ -10,6 +10,7 @@ class RolesController < ApplicationController
 
   def new
     @role = Role.new
+    @roles = Role.all
   end
 
   def create
@@ -22,6 +23,7 @@ class RolesController < ApplicationController
   end
 
   def edit
+    @roles = Role.all
   end
 
   def update
@@ -45,6 +47,6 @@ class RolesController < ApplicationController
   end
 
   def role_params
-    params.require(:role).permit(:name)
+    params.require(:role).permit(:name, :parent_id)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_28_141044) do
+ActiveRecord::Schema.define(version: 2023_04_07_052542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,18 @@ ActiveRecord::Schema.define(version: 2023_03_28_141044) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
+    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "content"
     t.bigint "user_id", null: false
@@ -65,6 +77,8 @@ ActiveRecord::Schema.define(version: 2023_03_28_141044) do
     t.bigint "resource_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "ancestry"
+    t.index ["ancestry"], name: "index_roles_on_ancestry"
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
@@ -89,9 +103,11 @@ ActiveRecord::Schema.define(version: 2023_03_28_141044) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
+    t.string "slug"
     t.index ["assigned_to_id"], name: "index_tickets_on_assigned_to_id"
     t.index ["creator_id"], name: "index_tickets_on_creator_id"
     t.index ["department_id"], name: "index_tickets_on_department_id"
+    t.index ["slug"], name: "index_tickets_on_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -105,7 +121,7 @@ ActiveRecord::Schema.define(version: 2023_03_28_141044) do
     t.string "name"
     t.bigint "contact"
     t.date "dob"
-    t.bigint "department_id", null: false
+    t.bigint "department_id"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
