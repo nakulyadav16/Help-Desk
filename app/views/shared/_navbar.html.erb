@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-bg" >
+  <span class="navbar-brand text-light">Help Desk</span> 
+  <%= link_to "Home", home_path, class:"navbar-brand text-light"%>
+  <%= link_to "Tickets", tickets_path, class:"navbar-brand text-light"%>
+  <% if current_user.present? %>
+    <% if current_user.has_role? :admin %>
+      <%= link_to "Departments", departments_path, class:"navbar-brand text-light"%>
+      <%= link_to "Roles", roles_path, class:"navbar-brand text-light"%>
+    <% end %>
+  <% end %>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <% if user_signed_in? %>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle signin-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <h4 class="navbar-brand text-light" ><%= current_user.name %> </h4>
+            <% if current_user.profile_pic.attached? %>
+              <%= image_tag current_user.profile_pic,  size: "30x30" %>
+            <% else %>
+              <%= image_tag("no_profile_pic.jpg",  size: "30x30")%>
+            <% end %>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-bg">
+            <li><%= link_to 'Edit Profile',  edit_user_registration_path,  class:"dropdown-item dropdown-item-bg"%></li>
+            <li><%= link_to 'Log Out',  destroy_user_session_path,  method: :delete, class:"dropdown-item dropdown-item-bg"%></li>
+          </ul>
+        </div>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to 'Sign In',  new_user_session_path,  class: 'nav-link text-light' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Register',  new_user_registration_path,  class: 'nav-link text-light' %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,145 @@
+<div class= "contianer signup-box">
+    
+<h2 >Edit Profile</h2>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <div class="row g-3">
+      <div class="col-md-12 img-block" >
+         <% if current_user.profile_pic.attached? %>
+              <%= image_tag current_user.profile_pic, size: "80x80" %>
+          <% else %>
+              <%= image_tag("no_profile_pic.jpg", size: "80x80")%>
+          <% end %>
+      </div>
+     
+
+      <div class="col-md-6">
+        <%= f.text_field :name, autofocus: true, class:" form-control m-2",placeholder:"Name" %>
+        <% resource.errors.full_messages_for(:name).each do |message| %>
+          <p class="text-danger"> <%= message%> </p>
+        <%end%>
+      </div>
+
+      <div class="col-md-6">
+        <%= f.date_field :dob,class:" form-control m-2",placeholder:"BirthDay" %>
+        <% resource.errors.full_messages_for(:dob).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
+      <div class="col-md-6">
+        <%= f.number_field :contact,class:" form-control m-2",placeholder:"Contact"%>
+        <% resource.errors.full_messages_for(:contact).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+      
+      <div class="col-md-6">
+        <%= f.select :department_id, get_departments, {prompt: "Select Department"}, class:" form-control m-2" %>
+        <% resource.errors.full_messages_for(:department_id).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
+      <div class="col-md-6">
+        <%= f.password_field :password,class:" form-control m-2",placeholder:"Password (6 characters minimum) "%>
+        <% resource.errors.full_messages_for(:password).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
+      <div class="col-md-6">
+        <%= f.password_field :password_confirmation,class:" form-control m-2",placeholder:"Confirm Password"%>
+        <% resource.errors.full_messages_for(:password_confirmation).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
+      
+
+      <div class="col-md-6">
+        <%= f.select :role, get_roles,  {prompt: "Select Role"}, class:" form-control m-2",placeholder:"Name"%>
+        <% resource.errors.full_messages_for(:role).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
+      <div class="col-md-6">
+         <%= f.password_field :current_password,class:" form-control m-2",placeholder:"Current Password"%>
+      </div>
+    </div>
+    <br>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <%= f.submit "Update",class:"btn btn-info"%>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+
+
+<!--
+
+<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+   <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :dob %><br />
+    <%= f.datetime_field :dob %>
+  </div>
+
+  <div class="field">
+    <%= f.label :contact %><br />
+    <%= f.number_field :contact %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+  <div class="field">
+    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+    <% if @minimum_password_length %>
+      <br />
+      <em><%= @minimum_password_length %> characters minimum</em>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.password_field :current_password, autocomplete: "current-password" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Update" %>
+  </div>
+<% end %>
+
+<h3>Cancel my account</h3>
+<%= registration_path(resource_name) %>
+<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+<%= link_to "Back", :back %>
+
+
+-->

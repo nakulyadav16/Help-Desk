@@ -1,0 +1,32 @@
+<div class="card form-box" >
+  <% if department.new_record? %>
+    <h2>New Department</h2>
+  <% else %>
+    <h2>Update Department</h2>
+  <% end %>
+  <br>
+  <%= form_with model: department do | f | %>
+    <div class="field">
+      <%= f.text_field :department_name, autofocus: true, autocomplete: "email", class:"form-control",placeholder:"Department name" %>
+      <% department.errors.full_messages_for(:department_name).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+    <br>
+    <div class="actions">
+      <%= f.submit class:"form-control btn-info"%>
+    </div>
+  <% end %>
+</div>
+
+
+<!--
+<%= form_with model: department do | f | %>
+  <%= f.label :department_name %>
+  <%= f.text_field :department_name %>
+  <% department.errors.full_messages_for(:department_name).each do |message| %>
+    <div><%= message %></div>
+  <% end %>
+  <%= f.submit %>
+<% end %>
+-->

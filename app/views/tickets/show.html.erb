@@ -1,0 +1,84 @@
+<div id="user-id" data-user-id=" <%= current_user.id %> "> </div>
+<div id="ticket-id" data-ticket-id=" <%= @ticket.id %> "> </div>
+
+<div class="container-fluid ticket-box">
+  <div class="row">
+    <div class="col-5 rooms-sidebar">
+        <div class="card-body card-body-bg">
+          <h2 class="text-center">Ticket Details</h2>
+          <p class="lead">
+            <strong> Subject : </strong> <%= @ticket.subject %> 
+          </p>
+          <p class="lead">
+            <strong> Description : </strong> <%= @ticket.description %> 
+          </p>
+          <p class="lead">
+            <strong> Due Date : </strong> <%= @ticket.due_date.strftime("%d-%m-%Y") %> 
+          </p>
+          <p class="lead">
+            <strong> Priority : </strong> <%= @ticket.priority %> 
+          </p>
+          <% if current_user.id == @ticket.creator_id %>
+            <p class="lead">
+              <strong> Assigend to : </strong> <%= @ticket.assigned_to.name %> 
+            </p>
+          <%else%>
+            <p class="lead">
+              <strong> Assigend By : </strong> <%= @ticket.creator.name %> 
+            </p>
+          <%end%>
+          <%= render 'documents_attached', { model_instance: @ticket }%>
+          <br>
+          <%= render 'trasistions_button', { ticket: @ticket }%> 
+          <%= render 'ticket_histroies/time_line.html', { ticket_assigned_history: @ticket_assigned_history } %>
+        </div>
+    </div>
+    <div class="col-7 chat-box">
+        <% if @ticket.present? %>
+          <div class="chat-room">
+            <nav class="navbar navbar-light">
+              <span class="navbar-brand" href="#">
+                <b><%= @ticket.subject %></b>
+              </span>
+            </nav>
+            <div class="message-box"> 
+              <div id="messages">
+                <%= render 'messages/message', ticket_messages: @ticket_messages %>
+              </div>
+            </div>
+            <div class="new-message-box">
+              <%= form_with(model: [@ticket, @ticket.messages.build]) do | f |%>
+                <p>
+                  <br>
+                  <div class="row">
+                    <div class="col-9 pr-0">
+                      <%= f.text_field :content, id: 'message_content', class: 'form-control' %> 
+                    </div>
+                    <div class="col-1 p-0">
+                        <%= f.label :documents, "📎", class:"form-label file-field" %>
+                        <%= f.file_field :documents, multiple: true, class: "form-select" %>
+                    </div>
+                    <div class="col-2 p-0">
+                      <%= f.submit "Send", data: { disable_with: false }, class:"btn btn-primary", id:"send" %>
+                    </div>
+                  </div>
+                </p>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('.message-box').stop().animate ({
+    scrollTop: $('.message-box')[0].scrollHeight
+  });
+
+  $("#send").click(function() {
+    $(".message-box").stop().animate ({ 
+      scrollTop: $(".message-box")[0].scrollHeight
+      }, 500);
+  });
+</script>

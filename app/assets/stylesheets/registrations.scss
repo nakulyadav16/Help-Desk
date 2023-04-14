@@ -1,0 +1,25 @@
+.signup-box {
+  padding: 25px;
+  width: 90%;
+  border-radius: 10px;
+  background:#31255e;color: black;
+  margin: -25px auto;
+
+  h2 {
+    text-align: center;
+    color: white;
+  }
+
+  .img-block {
+    display: flex;
+    justify-content: center; 
+    margin-bottom: 10px;
+    
+    img {
+      border-radius: 40px;
+      margin-top: 5px;
+    }
+  }
+
+  
+}
