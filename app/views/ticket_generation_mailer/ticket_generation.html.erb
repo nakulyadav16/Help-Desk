@@ -8,6 +8,7 @@
   <li><strong>Priority:</strong> <%= @ticket.priority %></li>
   <li><strong>Due Date:</strong> <%= @ticket.due_date %></li>
 </ul>
+<%= image_tag attachments['image.jpg'].url %>
 <p>You can view the ticket by following this link:</p>
 <p><a href="<%= ticket_url(@ticket) %>"><%= ticket_url(@ticket) %></a></p>
 <p>Thanks</p>

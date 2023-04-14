@@ -2,6 +2,7 @@ class TicketGenerationMailer < ApplicationMailer
 
   def ticket_generation(ticket)
     @ticket = ticket
+    attachments['image.jpg'] = File.read('app/assets/images/ticket.jpg')
     mail(from: ticket.creator.email, to: ticket.assigned_to.email, subject: 'Ticket is raised to you')
   end
 
