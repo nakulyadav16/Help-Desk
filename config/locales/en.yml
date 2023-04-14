@@ -40,5 +40,18 @@ en:
           attributes:
             dob:
               blank: "is required"
+              less_age: 'must be greater than 18.'
+      messages:
+        age_limit: 'must be greater than 18.'
               
 
+en:
+  notice:
+    new_ticket: 'New Ticket is successfully created'
+    ticket_updated: 'Ticket is successfully updated'
+    ticket_deleted: 'Ticket is successfully deleted'
+    ticket_upgraded: 'Ticket is successfully upgraded'
+    ticket_upgrade_failed: 'Ticket is upgradation failed. Try again'
+    top_level_ticket: 'Ticket can not be upgrade. You are already on top level!!'
+    ticket_not_found: 'Ticket you requested could not be found'
+    transistion_failed: 'Something went wrong, Transistion failed'

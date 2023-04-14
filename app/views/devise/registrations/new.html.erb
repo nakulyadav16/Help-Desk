@@ -1,83 +1,74 @@
-<div class= "contianer" style= "color: white;
-    padding: 20px;
-    width: 70%;
-    border: 2px solid white;
-    background:cornflowerblue;
-    margin: auto;">
+<div class= "contianer signup-box">
+  <h2>Sign up</h2>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name))  do |f| %>
-    <h2>Sign up</h2>
+    
     <div class="row g-3">
       <div class="col-md-6">
-        <%= f.label :name ,class:"form-label" %><br />
-        <%= f.text_field :name,class:"form-control", autofocus: true %>
-        <%= render partial: 'error' , locals: { field_name: :name } %>
+        <%= f.text_field :name, autofocus: true, class:" form-control m-2",placeholder:"Name" %>
+        <% resource.errors.full_messages_for(:name).each do |message| %>
+          <p class="text-danger"> <%= message%> </p>
+        <%end%>
       </div>
 
       <div class="col-md-6">
-        <%= f.label :email ,class:"form-label" %><br />
-        <%= f.email_field :email, class:"form-control", autocomplete: "email" %>
+        <%= f.email_field :email, autocomplete: "email", class:" form-control m-2",placeholder:"Email" %>
         <% resource.errors.full_messages_for(:email).each do |message| %>
           <p class="text-danger"> <%= message%> </p>
         <%end%>
       </div>
 
       <div class="col-md-6">
-        <%= f.label :dob ,class:"form-label" %><br />
-        <%= f.date_field :dob,class:"form-control" %>
+        <%= f.date_field :dob,class:" form-control m-2",placeholder:"BirthDay" %>
         <% resource.errors.full_messages_for(:dob).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
 
       <div class="col-md-6">
-        <%= f.label :contact ,class:"form-label" %><br />
-        <%= f.number_field :contact,class:"form-control"%>
+        <%= f.number_field :contact,class:" form-control m-2",placeholder:"Contact"%>
         <% resource.errors.full_messages_for(:contact).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
 
       <div class="col-md-6">
-        <%= f.label :password ,class:"form-label" %><br />
-        <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %>
-        <%= f.password_field :password,class:"form-control"%>
+        <%= f.password_field :password,class:" form-control m-2",placeholder:"Password (6 characters minimum) "%>
         <% resource.errors.full_messages_for(:password).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
 
       <div class="col-md-6">
-        <%= f.label :password_confirmation ,class:"form-label" %><br/><br />
-        <%= f.password_field :password_confirmation,class:"form-control"%>
+        <%= f.password_field :password_confirmation,class:" form-control m-2",placeholder:"Confirm Password"%>
         <% resource.errors.full_messages_for(:password_confirmation).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
 
       <div class="col-md-6">
-        <%= f.label :department_id ,class:"form-label"%><br />
-        <%= f.select :department_id, get_departments, {}, class: "form-control" %>
+        <%= f.select :department_id, get_departments, {prompt: "Select Department"}, class:" form-control m-2" %>
         <% resource.errors.full_messages_for(:department_id).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
 
       <div class="col-md-6">
-        <%= f.label :role ,class:"form-label" %><br />
-        <%= f.select :role, get_roles, {}, class: "form-control" %>
+        <%= f.select :role, get_roles,  {prompt: "Select Role"}, class:" form-control m-2",placeholder:"Name"%>
         <% resource.errors.full_messages_for(:role).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
+
+      <div class="col-md-6">
+        <%= f.file_field :profile_pic, class:" form-control m-2" %>
+      </div>
     </div>
     <br>
     <div class="row g-3">
-      <div class="col-md-10">
-        <%= f.submit "Sign up",class:"btn btn-primary" %>
+      <div class="col-md-6">
+        <%= f.submit "Sign up",class:"btn btn-info"%>
       </div>
-      <div class= "col-md-2">
+      <div class= "col-md-6">
         <%= render "devise/shared/links" %>
       </div>
     </div>

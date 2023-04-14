@@ -1,43 +1,50 @@
-<%= link_to "New ticket", new_ticket_path, class: "btn btn-primary mb-4 rounded-0"%>
-
-<div>
-  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Your Tickets</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Tickets Assigned to you </button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">New Request</button>
-    </li>
-  </ul>
-
-  <div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-      <% if @user_tickets.first == nil %>
-        <p> you have not created any ticket. </p>
-      <% else %>
-        <%= render 'assigned_tickets_table', { tickets: @user_tickets } %>
+<div class="container-fluid ticket_list">
+  <div class="row">
+    <div class="col-3 rooms-sidebar">
+      <%= search_form_for @tickets do |f| %>
+        <%= f.search_field :subject_cont, class:"form-control search", placeholder: "Search by Subject.." %>
+        <%= f.submit "Search", class:"btn btn-primary" %>
       <% end %>
-    </div> 
-    
-    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-      <% if @assigned_tickets.first == nil%>
-        <p> No one has assigned any ticket to you </p>
-      <% else %>
-          <%= render 'assigned_tickets_table', {tickets: @assigned_tickets } %>
-      <% end %>
+        <br>
+      <%= link_to "New ticket", new_ticket_path, class: "btn btn-info mb-3 ml-1 rounded-2 form-control" %>
+      <ul class="nav nav-pills mb-3 nav-pills-block" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active form-control m-1" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Your Tickets</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link form-control m-1" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Tickets Assigned to you </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link form-control m-1" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">New Request</button>
+        </li>
+      </ul>
     </div>
+    <div class="col-9 ticket-box">
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+          <% if @user_tickets&.first == nil %>
+            <h4 class="text-light"> You have not created any ticket. </h4>
+          <% else %>
+            <%= render 'assigned_tickets_table', { tickets: @user_tickets } %>
+          <% end %>
+        </div>
 
-    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-      <% if @new_request_tickets.first == nil %>
-        <h4> No new request available </h4>
-      <% else %>                
-        <%= render 'assigned_tickets_table', { tickets: @new_request_tickets } %>
-      <% end %>
-    </div>    
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+          <% if @assigned_tickets&.first == nil %>
+            <h4 class="text-light"> No one has assigned any ticket to you </h4>
+          <% else %>
+              <%= render 'assigned_tickets_table', {tickets: @assigned_tickets } %>
+          <% end %>
+        </div>
+
+        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+          <% if @new_request_tickets&.first == nil %>
+            <h4  class="text-light"> No new request available </h4>
+          <% else %>
+            <%= render 'assigned_tickets_table', { tickets: @new_request_tickets } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-
