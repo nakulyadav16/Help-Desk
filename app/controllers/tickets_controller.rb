@@ -24,7 +24,7 @@ class TicketsController < ApplicationController
   def create
     @ticket = current_user.tickets.new(ticket_params)
     if @ticket.save
-      TicketManager::SendMailAndCreateHistory.call(@ticket, current_user)
+      TicketManager::SendMailAndCreateHistory.call(@ticket)
       redirect_to tickets_path, notice: t('notice.new_ticket')
     else
       render :new

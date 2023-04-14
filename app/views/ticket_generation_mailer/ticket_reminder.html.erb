@@ -1,1 +1,13 @@
-<%= assigned_to_user.name %>, you have ticket raised 2 days ago 
+<h1>Ticket is raised 2 days ago..</h1>
+<p>Hello <%= @ticket.assigned_to.name %>,</p>
+<p>A ticket has been raised regarding <%= @ticket.subject %> is still in open status</p>
+<p>Here are the details:</p>
+<ul>
+  <li><strong>Subject:</strong> <%= @ticket.subject %></li>
+  <li><strong>Description:</strong> <%= @ticket.description %></li>
+  <li><strong>Priority:</strong> <%= @ticket.priority %></li>
+  <li><strong>Due Date:</strong> <%= @ticket.due_date %></li>
+</ul>
+<p>You can view the ticket by following this link:</p>
+<p><a href="<%= ticket_url(@ticket) %>"><%= ticket_url(@ticket) %></a></p>
+<p>Thanks</p>

@@ -4,7 +4,7 @@ class TicketReminderJob < ApplicationJob
   def perform
     Ticket.all.each do |ticket|
       if ticket.status == "open" && ticket.updated_at < 2.days.ago
-        TicketGenerationMailer.ticket_reminder(ticket.assigned_to).deliver_later
+        TicketGenerationMailer.ticket_reminder(ticket).deliver_now
       end
     end
   end
