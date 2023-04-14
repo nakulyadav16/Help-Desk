@@ -1,9 +1,9 @@
 class Department < ApplicationRecord
-  before_create :capitalize_name
+  before_save :capitalize_name
   
   has_many :users, dependent: :destroy
 
-  validates :department_name, presence: true
+  validates :department_name, presence: true, uniqueness: true
 
   private 
   def capitalize_name

@@ -3,40 +3,41 @@
 # This controller is user for handling Tickets
 class TicketsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_ticket, only: %i[ show edit update destroy accepted rejected satisfied close status_transistion ]
+  before_action :find_ticket, only: %i[show edit update destroy status_transistion upgrade]
 
   def index
-    @user_tickets = current_user.tickets
-    @assigned_tickets = Ticket.user_assigned_tickets(current_user)
-    @new_request_tickets = Ticket.new_request_tickets(current_user)
+    @tickets = Ticket.ransack(params[:q])
+    @user_tickets = TicketManager::UserTicketFinder.call(current_user, params[:q])
+    @assigned_tickets = TicketManager::UserAssignedTicketFinder.call(current_user, params[:q])
+    @new_request_tickets = TicketManager::NewRaisedTicketFinder.call(current_user, params[:q])
   end
 
   def show
+    @ticket_assigned_history = TicketManager::TicketHistories.call(@ticket)
+    @ticket_messages = @ticket.messages
   end
 
   def new
     @ticket = current_user.tickets.new
-    @departments = Department.all
   end
 
   def create
     @ticket = current_user.tickets.new(ticket_params)
     if @ticket.save
-      TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver_later
-      redirect_to tickets_path, notice: "New Ticket is successfully created"
+      TicketManager::SendMailAndCreateHistory.call(@ticket)
+      redirect_to tickets_path, notice: t('notice.new_ticket')
     else
-      redirect_to new_ticket_path
+      render :new
     end
   end
 
-  def edit
-    @departments = Department.all
-  end
+  def edit; end
 
   def update
     if @ticket.update(ticket_params)
+      TicketManager::SendMailAndCreateHistory.call(@ticket, current_user)
       @ticket.upgrade!
-      redirect_to @ticket, notice: "Ticket is successfully updated"
+      redirect_to @ticket, notice: t('notice.ticket_updated')
     else
       render :edit
     end
@@ -44,41 +45,50 @@ class TicketsController < ApplicationController
 
   def destroy
     @ticket.destroy
-    redirect_to tickets_path, notice: "Ticket is successfully deleted"
+    redirect_to tickets_path, notice: t('notice.ticket_deleted')
   end
 
   def fetch
-    options = User.department_users( fetch_params[ :department_selected_option ] ) # using scope
-    render json: options.to_json(only: [:id, :name])
+    assign_to = TicketManager::UserFinder.call(selected_department_params)
+    render json: assign_to.to_json(only: %i[id name])
   end
 
-  # aasm event calling methods
   def status_transistion
-    case params[:transistion]
-      when "accept"
-        @ticket.accept!
-      when "reject"
-        @ticket.reject!
-      when "satisfy"
-        @ticket.satisfy!
-      when "close"
-        @ticket.close!
+    if TicketManager::PerformTransistion.call(params[:transistion], @ticket)
+      redirect_to @ticket
+    else
+      redirect_to @ticket, notice: t('notice.transistion_failed')
     end
-    redirect_to @ticket
   end
-  
+
+  def upgrade
+    if TicketManager::FindSuperior.call(@ticket)
+      if @ticket.save
+        TicketManager::SendMailAndCreateHistory.call(@ticket, current_user)
+        @ticket.upgrade!
+        redirect_to @ticket, notice: t('notice.ticket_upgraded')
+      else
+        redirect_to @ticket, alert: t('notice.ticket_upgrade_failed')
+      end
+    else
+      redirect_to @ticket, alert: t('notice.top_level_ticket')
+    end
+  end
+
   private
-  def set_ticket
-    @ticket = Ticket.find_by_id(params[:id])
+
+  def find_ticket
+    @ticket = Ticket.friendly.find(params[:slug])
   rescue ActiveRecord::RecordNotFound => error
     redirect_to tickets_path, notice: "Something went wrong"
   end
 
   def ticket_params
-    params.require(:ticket).permit(:subject, :description, :due_date, :priority, :department_id, :assigned_to_id, :user_id )
+    params.require(:ticket).permit(:subject, :description, :due_date, :priority, :department_id,
+                                   :assigned_to_id, :user_id, documents: [])
   end
 
-  def fetch_params
+  def selected_department_params
     params.permit(:department_selected_option)
   end
 end
