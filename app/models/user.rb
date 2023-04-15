@@ -18,7 +18,6 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :contact, presence: true
-  validates :department_id, presence: true
   validates :dob, presence: true
   validate :check_age
 
