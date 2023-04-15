@@ -2,6 +2,7 @@ databases:
   - name: helpdesk
     databaseName: helpdesk
     user: helpdesk
+    plan: free
 
 services:
   - type: web
