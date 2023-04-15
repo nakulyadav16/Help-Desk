@@ -18,11 +18,11 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-# set :output, "log/cron.log" 
+set :output, "log/cron.log" 
 
-# set :environment, "development"
+set :environment, "development"
 
-# every 1.day, at: '12:00 am' do
-#   runner "TicketReminderJob.new.perform_now"
-#   runner "puts 'Running'"
-# end
+every 1.day, at: '12:00 am' do
+  runner "TicketReminderJob.new.perform_now"
+  runner "puts 'Running'"
+end
