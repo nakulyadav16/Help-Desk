@@ -6,6 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 Role.create(name: "admin")
-user = User.create("name"=>"Admin", "email"=> "admin@yopmail.com" , "dob"=>"1001-01-01", "contact"=>"123456789", "password"=>"123456", "password_confirmation"=>"123456", "role"=>"admin")
+user = User.create("name"=>"Admin", "email"=> "admin123@yopmail.com" , "dob"=>"1001-01-01", "contact"=>"123456789", "password"=>"123456", "password_confirmation"=>"123456", "role"=>"admin")
 user.skip_confirmation!
 user.save!
